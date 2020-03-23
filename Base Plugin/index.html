@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html manifest="manifest.appcache">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sample Hosted Plugin</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="signature.js"></script>
+    <script src="plugin.js"></script>
+    <script>
+        (function($){
+            $(document).ready(function() {
+                var plugin = new OfscPlugin(true);
+                plugin.init();
+            });
+        })(jQuery);
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img class="header__logo" src="./logo.svg" alt="Oracle logo">
+    </div>
+    <h1>OFSC Sample Hosted Plugin</h1>
+    <div class="content">
+        <div class="section section__local-storage">
+            <h2>Local Storage</h2>
+            <button class="button json_local_storage_toggle" type="button">View Local Storage</button>
+            <div class="json json__local-storage"></div>
+        </div>
+        <div class="section section__ofsc-data">
+            <h2>Open/Close Messages Data</h2>
+            <div class="row">
+                <button class="button submit" type="button">Submit</button>
+                <div class="back_method">and go to
+                    <select class="back_method_select" title="Redirect to screen after submit">
+                        <option value="default">Previous screen</option>
+                        <option value="activity_list">Activity List / Dashboard</option>
+                        <option value="activity_by_id">Activity</option>
+                        <option value="next_activity">Next pending activity</option>
+                        <option value="start_activity">Start activity</option>
+                        <option value="end_activity">Complete activity</option>
+                        <option value="cancel_activity">Cancel activity</option>
+                        <option value="notdone_activity">Not Done activity</option>
+                        <option value="suspend_activity">Suspend activity</option>
+                        <option value="delay_activity">Delay activity</option>
+                        <option value="inventory_list">Inventory list</option>
+                        <option value="inventory_by_id">Inventory</option>
+                        <option value="install_inventory">Install inventory</option>
+                        <option value="deinstall_inventory">Deinstall inventory</option>
+                        <option value="plugin_by_label">Plugin</option>
+                    </select>
+                    <input class="back_activity_id" type="text" title="Activity ID" placeholder="Activity ID">
+                    <input class="back_inventory_id" type="text" title="Inventory ID" placeholder="Inventory ID">
+                    <input class="back_plugin_label" type="text" title="Plugin label" placeholder="Plugin label">
+                    <input class="back_plugin_link_id" type="text" title="Link ID" placeholder="Link ID">
+                    <input class="back_plugin_params" type="text" title="Plugin label" placeholder="Params in JSON (one level hash)">
+                </div>
+            </div>
+ 
+            <div class="row">
+                <button class="button json_request_toggle" type="button">View received JSON</button>
+                <button class="button json_response_toggle" type="button">Edit JSON to send</button>
+            </div>
+ 
+            <div class="column-holder">
+ 
+                <div class="column-item column-item--request">
+                    <div class="json json__request"></div>
+                </div>
+ 
+                <div class="column-item">
+                    <div class="section section--visible">
+                        <h2>Inventory actions (will be applied after entity)</h2>
+ 
+                        <!-- this part will be inserted on adding of new property -->
+                        <div class="example-property item">
+                            <div class="item-expander"></div>
+                            <div class="key writable" contenteditable></div><span class="delimiter">: </span>
+                            <div class="value value__item writable" contenteditable></div>
+                            <button class="button button--remove-item">Remove</button>
+                        </div>
+ 
+                        <!-- this part will be inserted on adding of new file property -->
+                        <div class="example-file-property item">
+                            <div class="item-expander"></div>
+                            <div class="key writable" contenteditable></div><span class="delimiter">: </span>
+                            <button class="button button--remove-item">Remove</button>
+                            <div class="value value__item value__file writable" data-entity-id="" data-property-id="">
+                                <input type="file" class="value__file_input">
+                                <div class="value__file_preview_container"><img class="value__file_preview"></div>
+                            </div>
+                        </div>
+ 
+                        <!-- this part will be inserted on adding of new action -->
+                        <div class="example-action item">
+                            <div class="item-expander"></div>
+                            <div class="key action-key clickable">0</div>
+                            <button class="button button--remove-item">Remove</button>
+                            <br>
+                            <div class="value value__collection">
+                                <div class="items">
+                                    <div class="item">
+                                        <div class="item-expander"></div>
+                                        <div class="key">action</div><span class="delimiter">: </span>
+                                        <select class="value value__item writable select-inventory-action" title="">
+                                            <option value="">Select action</option>
+                                            <option value="create">Create</option>
+                                            <option value="delete">Delete</option>
+                                            <option value="install">Install</option>
+                                            <option value="deinstall">Deinstall</option>
+                                            <option value="undo_install">Undo install</option>
+                                            <option value="undo_deinstall">Undo deinstall</option>
+                                        </select>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-expander"></div>
+                                        <div class="key">entity</div><span class="delimiter">: </span>
+                                        <div class="value value__item">inventory</div>
+                                    </div>
+ 
+                                    <!-- new params will be inserted here -->
+ 
+                                    <div class="item item--excluded">
+                                        <div class="item-expander"></div>
+                                        <button class="button button--item-value button--add-property" type="button">Add parameter</button>
+                                    </div>
+ 
+                                    <div class="item">
+                                        <div class="item-expander"></div>
+                                        <div class="key">properties</div>
+                                        <br>
+                                        <div class="value value__collection">
+                                            <div class="items">
+ 
+                                                <!-- new properties will be inserted here -->
+ 
+                                                <div class="item item--excluded">
+                                                    <div class="item-expander"></div>
+                                                    <button class="button button--item-value button--add-property" type="button">Add property</button>
+                                                    <button class="button button--item-value button--add-file-property" type="button">Add file property</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+ 
+                        <div class="actions-form">
+                            <div class="item">
+                                <div class="key">actions</div>
+                                <br>
+                                <div class="value value__collection">
+                                    <div class="items items--without-key">
+ 
+                                        <!-- new actions will be inserted here -->
+ 
+                                        <div class="item item--excluded">
+                                            <div class="item-expander"></div>
+                                            <button class="button button--item-value button--add-action" type="button">Add action</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+ 
+                    <div class="section section--visible">
+                        <h2>Entity</h2>
+                        <div class="form"></div>
+                    </div>
+                </div>
+ 
+                <div class="column-item column-item--response">
+                    <div class="json json__response" contenteditable></div>
+                </div>
+            </div>
+ 
+            <div class="section section--visible">
+                <h2>Entity data items</h2>
+ 
+                <input class="data-items" type="checkbox" id="dataItems">
+                <label for="dataItems">Ask OFSC to send only selected items on next open</label>
+                <br>
+                <div class="value value__collection data-items-holder" style="display: none;">
+                    <div class="items">
+                        <div class="item">
+                            <div class="item-expander"></div>
+                            <div class="value value__item">
+                                <input type="checkbox" value="resource" id="resource">
+                                <label for="resource">Resource information</label>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-expander"></div>
+                            <div class="value value__item">
+                                <input type="checkbox" value="scheduledActivities" id="scheduledActivities">
+                                <label for="scheduledActivities">Scheduled activity list</label>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-expander"></div>
+                            <div class="value value__item">
+                                <input type="checkbox" value="nonScheduledActivities" id="nonScheduledActivities">
+                                <label for="nonScheduledActivities">Non-scheduled activity list</label>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-expander"></div>
+                            <div class="value value__item">
+                                <input type="checkbox" value="resourceInventories" id="resourceInventories">
+                                <label for="resourceInventories">Inventories of resource</label>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-expander"></div>
+                            <div class="value value__item">
+                                <input type="checkbox" value="installedInventories" id="installedInventories">
+                                <label for="installedInventories">Installed inventories</label>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-expander"></div>
+                            <div class="value value__item">
+                                <input type="checkbox" value="customerInventories" id="customerInventories">
+                                <label for="customerInventories">Inventories of customer</label>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-expander"></div>
+                            <div class="value value__item">
+                                <input type="checkbox" value="deinstalledInventories" id="deinstalledInventories">
+                                <label for="deinstalledInventories">Deinstalled inventories</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="section section--visible">
+                <h2>Background synchronization</h2>
+ 
+                <div class="wakeup-form">
+                    <div class="wakeup-form-row" id="wakeup_row">
+                        <label><input type="checkbox" id="wakeup"><span class="checkbox-label">Ask OFSC to wake up the Plugin when Mobility goes online</span></label><input id="repeat_count" class="repeat" type="number" min="0" step="1" size="1" value="1">times
+                    </div>
+                    <div class="wakeup-form-row" id="dont_respond_row">
+                        <label><input type="checkbox" id="dont_respond"><span class="checkbox-label">Don't respond on the</span></label><input id="dont_respond_on" class="repeat" type="number" min="1" step="1" size="1" value="1">wakeup
+                    </div>
+                    <div class="wakeup-form-row" id="wakeup_change_icon_row">
+                        <label><input type="checkbox" id="wakeup_change_icon"><span class="checkbox-label">Change icon image after wakeup</span></label>
+                    </div>
+                </div>
+ 
+            </div>
+            <div class="section section--visible">
+                <h2>Open options</h2>
+ 
+                <div>
+                    <input type="checkbox" id="back-navigation"/>
+                    <span class="checkbox-label">Ask OFSC to enable back navigation from plugin to OFSC without closing plugin at next plugin startup</span>
+                </div>
+ 
+                <div>
+                    <input type="checkbox" id="show-header"/>
+                    <span class="checkbox-label">Ask OFSC to show header at next plugin startup</span>
+                </div>
+ 
+            </div>
+ 
+            <div class="section section--visible">
+                <h2>Appearance of Plugin tile and icon</h2>
+ 
+                <div class="value value__collection icon-options-holder">
+                    <div class="items">
+                        <div class="item" id="iconColor">
+                            <div class="item-expander"></div>
+                            <div class="key">Color</div>
+                            <span class="delimiter">: </span>
+                            <select class="writable value value__item">
+                                <option value="default" selected>Default</option>
+                                <option value="highlight">Highlighted</option>
+                            </select>
+                        </div>
+                        <div class="item" id="iconText">
+                            <div class="item-expander"></div>
+                            <div class="key">Text</div>
+                            <span class="delimiter">: </span>
+                            <div class="value value__item writable" contenteditable="true"></div>
+                        </div>
+                        <div class="item" id="iconImage">
+                            <div class="item-expander"></div>
+                            <div class="key">Icon image file</div>
+                            <span class="delimiter">: </span>
+                            <div class="writable value value__item value__file">
+                                <input type="file" class="value__file_input image_file" accept="image/svg+xml,image/png">
+                                <div class="value__file_preview_container"><img class="value__file_preview"></div>
+                            </div>
+                        </div>
+                        <div class="item" id="iconLinkId">
+                            <div class="item-expander"></div>
+                            <div class="key">Link ID</div>
+                            <span class="delimiter">: </span>
+                            <div class="value value__item writable" contenteditable="true"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="section section__procedure-list">
+            <h2>Procedures</h2>
+            <div class="json json__procedure json__procedure-new" contenteditable></div>
+            <div class="notice"><b>%%uniqueId%%</b> will be replaced with randomly generated string before send</div>
+            <div class="actions__send-procedure">
+                <button class="button button__send-procedure" type="button">Send</button>
+            </div>
+            <div class="procedures-title">Request → Response</div>
+            <div class="procedures-subtitle">associated by <span class="mono">callId</span></div>
+ 
+            <div class="procedures-json-list" data-procedure-count="0"></div>
+ 
+            <!-- this part will be inserted on sending of procedure -->
+            <div class="section section__procedure section__procedure-example"
+                 data-call-id=""
+                 data-procedure-number=""
+                 data-request-time=""
+                 data-response-time=""
+            >
+                <h3 class="procedure-number"></h3>
+                <div class="procedure-request">
+                    <h4 class="procedure-time procedure-request-time"></h4>
+                    <div class="json json__procedure json__procedure-hidden json__procedure-request"></div>
+                </div>
+                <div class="procedure-response">
+                    <h4 class="procedure-time procedure-response-time"></h4>
+                    <div class="json json__procedure json__procedure-hidden json__procedure-response"></div>
+                </div>
+            </div>
+        </div>
+ 
+    </div>
+</body>
+</html>

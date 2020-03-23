@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20" height="20" enable-background="new 0 0 32 32" version="1.1" viewBox="0 0 20 20" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+    <g transform="matrix(.83333 0 0 .83333 -3.3333 -3.3333)">
+        <rect x="9" y="15" width="14" height="2" fill="#878c90" />
+        <path d="m16 6c5.514 0 10 4.486 10 10.001s-4.486 9.999-10 9.999-10-4.484-10-9.999 4.486-10.001 10-10.001m0-2c-6.627 0-12 5.373-12 12.001 0 6.627 5.373 11.999 12 11.999 6.628 0 12-5.372 12-11.999 0-6.628-5.372-12.001-12-12.001z" fill="#878c90" />
+    </g>
+    <rect x="-4" y="-8" width="32" height="32" fill="none" />
+</svg>

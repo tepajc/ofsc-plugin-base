@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html manifest="manifest.appcache">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sample Hosted Plugin</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!--Load the AJAX API-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLRbV_nJoJqmcghOgou6xDk1kDHCMhSt0" type="text/javascript"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="signature.js"></script>
+    <script src="plugin.js"></script>
+    <script>
+        (function($){
+            $(document).ready(function() {
+                var plugin = new OfscPlugin(true);
+                plugin.init();
+            });
+        })(jQuery);
+    </script>
+</head>
+<body id="body">
+  <div id = "info" style="width: 100%;">
+    <div id="container" style="width: 50%; float: left;">
+        <div id="content" style="position: absolute; background: #FFFFDD;">Info</div>
+        <div id="datatable" style="position: absolute; background: #FFDDDD;">Data</div>
+    </div>
+    <div id = "map_div" style="margin-left: 50%; height: 600px; background: #DDDDDD;">
+        Map Placeholder
+    </div>
+</div>
+</body>
+</html>

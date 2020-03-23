@@ -1,0 +1,20 @@
+CACHE MANIFEST
+# APPCACHE MANIFEST
+# v1
+ 
+CACHE:
+./index.html
+./style.css
+./plugin.js
+./signature.js
+./logo.svg
+./item.svg
+./items.svg
+./online.svg
+./remove.svg
+https://code.jquery.com/jquery-3.1.1.min.js
+ 
+FALLBACK:
+ 
+NETWORK:
+*
