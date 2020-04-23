@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sample Hosted Plugin</title>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
     <!--Load the AJAX API-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLRbV_nJoJqmcghOgou6xDk1kDHCMhSt0" type="text/javascript"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -23,8 +24,8 @@
 <body id="body">
   <div id = "info" style="width: 100%;">
     <div id="container" style="width: 50%; float: left;">
-        <div id="content" style="position: absolute; background: #FFFFDD;">Info</div>
-        <div id="datatable" style="position: absolute; background: #FFDDDD;">Data</div>
+        <div id="datatable" style="height: 25%; background: #FFFFDD;">Info</div>
+        <div id="content" style="margin-top: 30%; background: #FFDDDD;">Data</div>
     </div>
     <div id = "map_div" style="margin-left: 50%; height: 600px; background: #DDDDDD;">
         Map Placeholder

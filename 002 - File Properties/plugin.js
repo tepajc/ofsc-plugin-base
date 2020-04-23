@@ -354,56 +354,143 @@
          * @param {Object} receivedData - JSON object that contain data from OFSC
          */
         pluginOpen: function (receivedData) {
-          var baseURL = "https://api.etadirect.com/rest/ofscCore/v1";
-          var body = document.getElementById("content");
           var received = JSON.stringify(receivedData, null, 4);
-          // var content = "<pre>"+ received+ "</pre>";
-          var info = JSON.parse(received);
-          var content = "<pre> Looking for activities for "+ info.resource.pname+ " ("+ info.resource.external_id+ ") </pre>";
-          body.innerHTML +=content;
-          var request = baseURL + "/resources/"+ info.resource.external_id + "/workZones";
-          $.ajaxSetup({
-            headers : {
-              'Authorization' : 'Basic ZGVtb2F1dGhAc3VucmlzZTA1MTE6NmEwYjhjNTNlMmY0ZjgyMzgwNTQyZDQ5ZjExZDVjMjQ3Y2Y5MzUxYmIxNjM3MzA2ZjQ0NThmM2UzMjYx',
-            }
+          var fileContent = receivedData.activity.XA_issue_list;
+          document.getElementById("received-data").innerHTML = "<pre>" + JSON.stringify(receivedData, undefined, 4) + "</pre>";
+          document.getElementById("file-data").innerHTML = "<pre>" + fileContent.fileName + "</pre>";
+          //define data
+          var tabledata_old  = [
+              {id:1, name:"Oli Bob", location:"United Kingdom", gender:"male", rating:1, col:"red", dob:"14/04/1984"},
+              {id:2, name:"Mary May", location:"Germany", gender:"female", rating:2, col:"blue", dob:"14/05/1982"},
+              {id:3, name:"Christine Lobowski", location:"France", gender:"female", rating:0, col:"green", dob:"22/05/1982"},
+              {id:4, name:"Brendon Philips", location:"USA", gender:"male", rating:1, col:"orange", dob:"01/08/1980"},
+              {id:5, name:"Margret Marmajuke", location:"Canada", gender:"female", rating:5, col:"yellow", dob:"31/01/1999"},
+              {id:6, name:"Frank Harbours", location:"Russia", gender:"male", rating:4, col:"red", dob:"12/05/1966"},
+              {id:7, name:"Jamie Newhart", location:"India", gender:"male", rating:3, col:"green", dob:"14/05/1985"},
+              {id:8, name:"Gemma Jane", location:"China", gender:"female", rating:0, col:"red", dob:"22/05/1982"},
+              {id:9, name:"Emily Sykes", location:"South Korea", gender:"female", rating:1, col:"maroon", dob:"11/11/1970"},
+              {id:10, name:"James Newman", location:"Japan", gender:"male", rating:5, col:"red", dob:"22/03/1998"},
+          ];
+
+          var tabledata = JSON.parse(receivedData.activity["List of Issues"]);
+
+
+          function json2xml(json) {
+              var a = JSON.parse(json)
+              var c = document.createElement("root");
+              var t = function (v) {
+                  return {}.toString.call(v).split(' ')[1].slice(0, -1).toLowerCase();
+              };
+              var f = function (f, c, a, s) {
+                  c.setAttribute("type", t(a));
+                  if (t(a) != "array" && t(a) != "object") {
+                      if (t(a) != "null") {
+                          c.appendChild(document.createTextNode(a));
+                      }
+                  } else {
+                      for (var k in a) {
+                          var v = a[k];
+                          if (k == "__type" && t(a) == "object") {
+                              c.setAttribute("__type", v);
+                          } else {
+                              if (t(v) == "object") {
+                                  var ch = c.appendChild(document.createElementNS(null, s ? "item" : k));
+                                  f(f, ch, v);
+                              } else if (t(v) == "array") {
+                                  var ch = c.appendChild(document.createElementNS(null, s ? "item" : k));
+                                  f(f, ch, v, true);
+                              } else {
+                                  var va = document.createElementNS(null, s ? "item" : k);
+                                  if (t(v) != "null") {
+                                      va.appendChild(document.createTextNode(v));
+                                  }
+                                  var ch = c.appendChild(va);
+                                  ch.setAttribute("type", t(v));
+                              }
+                          }
+                      }
+                  }
+              };
+              f(f, c, a, t(a) == "array");
+              return c.outerHTML;
+          }
+
+          //Create Date Editor
+          var dateEditor = function(cell, onRendered, success, cancel){
+              //cell - the cell component for the editable cell
+              //onRendered - function to call when the editor has been rendered
+              //success - function to call to pass the successfuly updated value to Tabulator
+              //cancel - function to call to abort the edit and return to a normal cell
+
+              //create and style input
+              var cellValue = moment(cell.getValue(), "DD/MM/YYYY").format("YYYY-MM-DD"),
+              input = document.createElement("input");
+
+              input.setAttribute("type", "date");
+
+              input.style.padding = "4px";
+              input.style.width = "100%";
+              input.style.boxSizing = "border-box";
+
+              input.value = cellValue;
+
+              onRendered(function(){
+                  input.focus();
+                  input.style.height = "100%";
+              });
+
+              function onChange(){
+                  if(input.value != cellValue){
+                      success(moment(input.value, "YYYY-MM-DD").format("DD/MM/YYYY"));
+                  }else{
+                      cancel();
+                  }
+              }
+
+              //submit new value on blur or change
+              input.addEventListener("blur", onChange);
+
+              //submit new value on enter
+              input.addEventListener("keydown", function(e){
+                  if(e.keyCode == 13){
+                      onChange();
+                  }
+
+                  if(e.keyCode == 27){
+                      cancel();
+                  }
+              });
+
+              return input;
+          };
+
+
+          //Build Tabulator
+          var table = new Tabulator("#example-table", {
+              height:"311px",
+              data:tabledata,
+              columns:[
+                  {title:"Name", field:"name", width:150, editor:"input"},
+                  {title:"Location", field:"location", width:130, editor:"autocomplete", editorParams:{allowEmpty:true, showListOnEmpty:true, values:true}},
+                  {title:"Progress", field:"progress", sorter:"number", hozAlign:"left", formatter:"progress", width:140, editor:true},
+                  {title:"Gender", field:"gender", editor:"select", editorParams:{values:{"male":"Male", "female":"Female", "unknown":"Unknown"}}},
+                  {title:"Rating", field:"rating",  formatter:"star", hozAlign:"center", width:100, editor:true},
+                  {title:"Date Of Birth", field:"dob", hozAlign:"center", sorter:"date", width:140, editor:dateEditor},
+                  {title:"Driver", field:"car", hozAlign:"center", editor:true, formatter:"tickCross"},
+              ],
           });
 
-          // Draw activities on map
-          google.charts.load('current', { 'packages': ['map'] });
-          google.charts.setOnLoadCallback(drawMap);
+          //Add row on "Add Row" button click
+          document.getElementById("add-row").addEventListener("click", function(){
+              table.addRow({});
+          });
 
-          function drawMap() {
-            var data = google.visualization.arrayToDataTable([
-              ['Lat', 'Long', 'Name'],
-              [28.788, -81.27177, 'Work'],
-              [28.66179, -81.37808, 'University'],
-              [28.66969, -81.38462, 'Airport']
-            ]);
-            var mapData = new google.visualization.DataTable();
-            mapData.addColumn("number", "Lat");
-            mapData.addColumn("number", "Long");
-            mapData.addColumn("string", "activityId");
-            mapData.addColumn("string", "activityDate");
-            request = baseURL + "/resources/"+ info.resource.external_id + "/findNearbyActivities";
-            $.getJSON( request, function( data ) {
-                console.log( "success 3 in getJSON" );
-                        body.innerHTML +="<pre> SKILLS: "+JSON.stringify(data, null, 4)+"</pre>";
-                data.items.forEach((item, i) => {
-                      mapData.addRows([
-                        [item.latitude, item.longitude, item.activityId.toString(), item.date]
-                      ]);
-                });
-                var options = {
-                  mapType: "normal",
-                  showTooltip: true,
-                  showInfoWindow: true
-                };
-                var map = new google.visualization.Map(document.getElementById('map_div'));
-                map.draw(mapData, options);
-              });
-            };
+          //Add row on "Add Row" button click
+          document.getElementById("get-data").addEventListener("click", function(){
+              var data = table.getData();
+              document.getElementById("show-data").innerHTML = "<pre>" + JSON.stringify(data, undefined, 4) + "</pre>";
+          });
         },
-
 
         /**
          * Business login on plugin wakeup (background open for sync)
