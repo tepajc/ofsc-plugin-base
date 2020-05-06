@@ -356,64 +356,9 @@
         pluginOpen: function (receivedData) {
           var received = JSON.stringify(receivedData, null, 4);
           var fileContent = receivedData.activity.XA_issue_list;
-          document.getElementById("received-data").innerHTML = "<pre>" + JSON.stringify(receivedData, undefined, 4) + "</pre>";
-          document.getElementById("file-data").innerHTML = "<pre>" + fileContent.fileName + "</pre>";
-          //define data
-          var tabledata_old  = [
-              {id:1, name:"Oli Bob", location:"United Kingdom", gender:"male", rating:1, col:"red", dob:"14/04/1984"},
-              {id:2, name:"Mary May", location:"Germany", gender:"female", rating:2, col:"blue", dob:"14/05/1982"},
-              {id:3, name:"Christine Lobowski", location:"France", gender:"female", rating:0, col:"green", dob:"22/05/1982"},
-              {id:4, name:"Brendon Philips", location:"USA", gender:"male", rating:1, col:"orange", dob:"01/08/1980"},
-              {id:5, name:"Margret Marmajuke", location:"Canada", gender:"female", rating:5, col:"yellow", dob:"31/01/1999"},
-              {id:6, name:"Frank Harbours", location:"Russia", gender:"male", rating:4, col:"red", dob:"12/05/1966"},
-              {id:7, name:"Jamie Newhart", location:"India", gender:"male", rating:3, col:"green", dob:"14/05/1985"},
-              {id:8, name:"Gemma Jane", location:"China", gender:"female", rating:0, col:"red", dob:"22/05/1982"},
-              {id:9, name:"Emily Sykes", location:"South Korea", gender:"female", rating:1, col:"maroon", dob:"11/11/1970"},
-              {id:10, name:"James Newman", location:"Japan", gender:"male", rating:5, col:"red", dob:"22/03/1998"},
-          ];
+          //document.getElementById("file-data").innerHTML = "<pre>" + fileContent.fileName + "</pre>";
 
           var tabledata = JSON.parse(receivedData.activity["List of Issues"]);
-
-
-          function json2xml(json) {
-              var a = JSON.parse(json)
-              var c = document.createElement("root");
-              var t = function (v) {
-                  return {}.toString.call(v).split(' ')[1].slice(0, -1).toLowerCase();
-              };
-              var f = function (f, c, a, s) {
-                  c.setAttribute("type", t(a));
-                  if (t(a) != "array" && t(a) != "object") {
-                      if (t(a) != "null") {
-                          c.appendChild(document.createTextNode(a));
-                      }
-                  } else {
-                      for (var k in a) {
-                          var v = a[k];
-                          if (k == "__type" && t(a) == "object") {
-                              c.setAttribute("__type", v);
-                          } else {
-                              if (t(v) == "object") {
-                                  var ch = c.appendChild(document.createElementNS(null, s ? "item" : k));
-                                  f(f, ch, v);
-                              } else if (t(v) == "array") {
-                                  var ch = c.appendChild(document.createElementNS(null, s ? "item" : k));
-                                  f(f, ch, v, true);
-                              } else {
-                                  var va = document.createElementNS(null, s ? "item" : k);
-                                  if (t(v) != "null") {
-                                      va.appendChild(document.createTextNode(v));
-                                  }
-                                  var ch = c.appendChild(va);
-                                  ch.setAttribute("type", t(v));
-                              }
-                          }
-                      }
-                  }
-              };
-              f(f, c, a, t(a) == "array");
-              return c.outerHTML;
-          }
 
           //Create Date Editor
           var dateEditor = function(cell, onRendered, success, cancel){
@@ -423,7 +368,7 @@
               //cancel - function to call to abort the edit and return to a normal cell
 
               //create and style input
-              var cellValue = moment(cell.getValue(), "DD/MM/YYYY").format("YYYY-MM-DD"),
+              var cellValue = moment(cell.getValue(), "YYYY-MM-DD hh:mm").format("YYYY-MM-DD hh:mm"),
               input = document.createElement("input");
 
               input.setAttribute("type", "date");
@@ -441,7 +386,7 @@
 
               function onChange(){
                   if(input.value != cellValue){
-                      success(moment(input.value, "YYYY-MM-DD").format("DD/MM/YYYY"));
+                      success(moment(input.value, "YYYY-MM-DD hh:mm").format("YYYY-MM-DD hh:mm"));
                   }else{
                       cancel();
                   }
@@ -467,22 +412,41 @@
 
           //Build Tabulator
           var table = new Tabulator("#example-table", {
-              height:"311px",
               data:tabledata,
+              layout:"fitDataStretch",
               columns:[
-                  {title:"Name", field:"name", width:150, editor:"input"},
-                  {title:"Location", field:"location", width:130, editor:"autocomplete", editorParams:{allowEmpty:true, showListOnEmpty:true, values:true}},
-                  {title:"Progress", field:"progress", sorter:"number", hozAlign:"left", formatter:"progress", width:140, editor:true},
-                  {title:"Gender", field:"gender", editor:"select", editorParams:{values:{"male":"Male", "female":"Female", "unknown":"Unknown"}}},
-                  {title:"Rating", field:"rating",  formatter:"star", hozAlign:"center", width:100, editor:true},
-                  {title:"Date Of Birth", field:"dob", hozAlign:"center", sorter:"date", width:140, editor:dateEditor},
-                  {title:"Driver", field:"car", hozAlign:"center", editor:true, formatter:"tickCross"},
+                  {title:"ID", field:"id", width:150, editor:"input"},
+                  {title:"Fecha/Hora", field:"date", hozAlign:"center", sorter:"date", width:140, editor:dateEditor},
+                  {title:"Valor Medio", field:"avg_value", sorter:"number", hozAlign:"left", width:140, editor:true},
+                  {title:"Grupo", field:"group",  editor:"select", editorParams:{values:{"Uno":"One", "Dos":"two", "Otro":"Other"}}},
+                  {title:"Comentario", field:"comment", hozAlign:"center", width:140, editor:true},
+                  {title:"Valores", field:"values", hozAlign:"center", editor:true},
               ],
           });
 
           //Add row on "Add Row" button click
           document.getElementById("add-row").addEventListener("click", function(){
-              table.addRow({});
+              var new_record = {};
+              new_record.date = moment().format("YYYY-MM-DD hh:mm");
+              new_record.group - "Uno";
+              table.addRow(new_record);
+          });
+
+          //Add row on "Add Row" button click
+          document.getElementById("show-hide").addEventListener("click", function(){
+            var element = document.getElementById("show-data");
+            if (element.style.display === "none") {
+              element.style.display = "block";
+            } else {
+              element.style.display = "none";
+            };
+            var element = document.getElementById("received-data");
+            element.innerHTML = "<pre>" + JSON.stringify(receivedData, undefined, 4) + "</pre>";
+            if (element.style.display === "none") {
+              element.style.display = "block";
+            } else {
+              element.style.display = "none";
+            };
           });
 
           //Add row on "Add Row" button click

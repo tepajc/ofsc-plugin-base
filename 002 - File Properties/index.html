@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sample Hosted Plugin</title>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
     <link href="https://unpkg.com/tabulator-tables@4.6.2/dist/css/tabulator.min.css" rel="stylesheet">
     <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.6.2/dist/js/tabulator.min.js"></script>
     <script src="signature.js"></script>
@@ -22,10 +23,11 @@
 <body id="body">
   <button id="add-row">+</button>
      <button id="get-data">Save Data</button>
+     <button id="show-hide"> Show / Hide </button>
      <div id="example-table"></div>
-     <div id="show-data"></div>
+     <div display="none" id="show-data"></div>
      <hr>
-     <div id="received-data"></div>
-     <div id="file-data"></div>
+     <div display="none" id="received-data"></div>
+     <div display="none" id="file-data"></div>
 </body>
 </html>
