@@ -6,8 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sample Hosted Plugin</title>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="https://unpkg.com/tabulator-tables@4.6.2/dist/css/tabulator.min.css" rel="stylesheet">
+    <style type='text/css'>
+    .ui-footer .ui-btn-right {
+      right: 35px !important
+    }
+    </style>
     <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.6.2/dist/js/tabulator.min.js"></script>
     <script src="signature.js"></script>
     <script src="plugin.js"></script>
@@ -21,13 +28,27 @@
     </script>
 </head>
 <body id="body">
-  <button id="add-row">+</button>
-     <button id="get-data">Save Data</button>
-     <button id="show-hide"> Show / Hide </button>
-     <div id="example-table"></div>
-     <div display="none" id="show-data"></div>
-     <hr>
-     <div display="none" id="received-data"></div>
-     <div display="none" id="file-data"></div>
+  <div data-role="page" id="main">
+
+	<div data-role="header">
+		<h1>Carga de Medidas</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+    <button id="add-row">+</button>
+       <button id="get-data">Save Data</button>
+       <button id="show-hide"> Show / Hide </button>
+       <div id="example-table"></div>
+       <div display="none" id="show-data"></div>
+       <hr>
+       <div display="none" id="received-data"></div>
+       <div display="none" id="file-data"></div>
+
+	</div><!-- /content -->
+
+  <div data-role="footer" data-theme="d" class="ui-bar">
+    <button id="submit">Enviar</button>
+  </div>
+
 </body>
 </html>
