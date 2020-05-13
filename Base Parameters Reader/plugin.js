@@ -5,21 +5,25 @@ var activity;
 function openMessage(data) {
   <!--PLACEHOLDER FOR CUSTOM CODE-- >
 
-  var element = document.getElementById("received-data");
-  element.innerHTML = "<pre>" + JSON.stringify(data, undefined, 4) + "</pre>";
+  //var element = document.getElementById("received-data");
+  //element.innerHTML = "<pre>" + JSON.stringify(data, undefined, 4) + "</pre>";
 
-  var result = data.activity.A_OIA_RESULT_INPUT;
-  var dispComm = data.activity.A_DISP_COMMENTS_INPUT;
+
+  var externalData = data.externalData;
+  //var externalValues
+
 
   var activityData = {
-    "DISPATCHER_COMMENTS": dispComm,
-    "XA_OIA_RESULT" :result,
 		"aid" : data.activity.aid
   };
-
-  document.getElementById("submit").addEventListener("click", function() {
-		closePlugin(activityData);
-  });
+  for (var key in externalData) {
+     if (externalData.hasOwnProperty(key)) {
+        activityData[key]=externalData[key];
+     }
+   }
+//  document.getElementById("submit").addEventListener("click", function() {
+	closePlugin(activityData);
+//  });
 
   <!--END OF PLACEHOLDER-- >
 }
