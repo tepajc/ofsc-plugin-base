@@ -3,7 +3,7 @@
 var activity;
 
 function openMessage(data) {
-    <!--PLACEHOLDER FOR CUSTOM CODE-- >
+  // PLACEHOLDER FOR CUSTOM CODE-- >
 
     // Read property data
     var tabledata = JSON.parse(data.activity["XA_LIST"]);
@@ -49,7 +49,7 @@ function openMessage(data) {
         closePlugin(activityData);
     });
 
-    <!--END OF PLACEHOLDER-- >
+    // END OF PLACEHOLDER
 }
 
 function initMessage(data) {
