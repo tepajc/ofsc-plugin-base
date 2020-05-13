@@ -1,0 +1,44 @@
+<!DOCTYPE xsl:stylesheet >
+
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="/">
+        <style>
+            .property_table
+            {
+                font-size:12px;
+                font-family: Arial;
+                border-collapse: collapse;
+            }
+            .property_table td
+            {
+                border:1px solid black;
+                padding: 5px;
+            }
+            .property_table th
+            {
+                border:1px solid black;
+                padding: 5px;
+            }
+        </style>
+        <table class="property_table">
+        <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Grupo</th>
+            <th>Valor Medio</th>
+            <th>Valores</th>
+            <th>Comentario</th>
+        </tr>
+            <xsl:for-each select="root/item">
+                 <tr>
+                <td><xsl:value-of select="id"/></td>
+                <td><xsl:value-of select="date"/></td>
+                <td><xsl:value-of select="group"/></td>
+                <td><xsl:value-of select="avg_value"/></td>
+                <td><xsl:value-of select="values"/></td>
+               <td><xsl:value-of select="comment"/></td>
+         </tr>
+           </xsl:for-each>
+        </table>
+    </xsl:template>
+</xsl:stylesheet>
