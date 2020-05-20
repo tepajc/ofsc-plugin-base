@@ -1,0 +1,1 @@
+zip -r ../plugin.zip formattin.info index.html manifest.appcache plugin.js -x formattin.info -x createPlugin
