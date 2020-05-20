@@ -4,9 +4,13 @@ var activity;
 
 function openMessage(data) {
   // PLACEHOLDER FOR CUSTOM CODE-- >
-
+    var tabledata;
     // Read property data
-    var tabledata = JSON.parse(data.activity["XA_LIST"]);
+    if ( data.activity.hasOwnProperty('COE_METER_LIST') ) {
+        tabledata = JSON.parse(data.activity["COE_METER_LIST"]);
+    } else {
+        tabledata = {};
+    };
     // Create x2js instance with default config
     var x2js = new X2JS();
 
@@ -15,12 +19,9 @@ function openMessage(data) {
         data:tabledata,
         layout:"fitDataStretch",
         columns:[
-            {title:"ID", field:"id", width:150, editor:"input"},
-            {title:"Fecha/Hora", field:"date", hozAlign:"center", sorter:"date", width:140},
-            {title:"Valor Medio", field:"avg_value", sorter:"number", hozAlign:"left", width:140, editor:true},
-            {title:"Grupo", field:"group",  editor:"select", editorParams:{values:{"Uno":"1", "Dos":"2", "Tres":"3"}}},
+            {title:"Contador", field:"id", width:150, editor:"input", headerFilter:"input", validator:["required", "numeric", "minLength:8", "maxLength:8"]},
+            {title:"Valor", field:"avg_value", sorter:"number", hozAlign:"left", width:140, editor:true, validator:["numeric", "maxLength:8"]},
             {title:"Comentario", field:"comment", hozAlign:"center", width:140, editor:true},
-            {title:"Valores", field:"values", hozAlign:"center", editor:true},
         ],
     });
 
@@ -38,8 +39,8 @@ function openMessage(data) {
             temp2.root = temp;
             var xmlData = x2js.json2xml_str(temp2);
             var activityData = {
-                "XA_LIST": newData,
-                "XA_LIST_XML": xmlData,
+                "COE_METER_LIST": newData,
+                "COE_METTER_LIST_XML": xmlData,
                 "aid": data.activity.aid
             };
             closePlugin(activityData);
