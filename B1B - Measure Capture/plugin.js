@@ -5,13 +5,17 @@ var activity;
 function openMessage(data) {
     const data_list = 'COE_LIST';
   // PLACEHOLDER FOR CUSTOM CODE-- >
+
+    // Create x2js instance with default config
+    var x2js = new X2JS();
+  
     var tabledata;
     // Read property data
-    if ( data.activity.hasOwnProperty(data_list) ) {
-        tabledata = JSON.parse(data.activity[data_list]);
-    } else {
-        tabledata = {};
-    };
+
+    var data2 = x2js.xml_str2json(data.activity[data_list]);
+    console.log(data2);
+    tabledata = data2.root.item;
+
 
 
     //Calculate average of data
@@ -39,8 +43,7 @@ function openMessage(data) {
         return calc.toFixed(2);
     }
 
-    // Create x2js instance with default config
-    var x2js = new X2JS();
+
 
     //Build table
     var table = new Tabulator("#data-table", {
@@ -74,7 +77,7 @@ function openMessage(data) {
             var activityData = {
                 "aid": data.activity.aid
             };
-            activityData[data_list] = newData;
+            activityData[data_list] = xmlData;
             console.log(xmlData);
             closePlugin(activityData);
         });
