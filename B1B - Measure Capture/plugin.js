@@ -43,8 +43,6 @@ function openMessage(data) {
         return calc.toFixed(2);
     }
 
-
-
     //Build table
     var table = new Tabulator("#data-table", {
         data:tabledata,
