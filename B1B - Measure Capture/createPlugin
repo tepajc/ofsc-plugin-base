@@ -1,0 +1,1 @@
+zip -r ../MeasureCapture.zip index.html manifest.appcache plugin.js style.css -x createPlugin
