@@ -13,7 +13,6 @@ function openMessage(data) {
 
 
   var activityData = {
-    "DISPATCHER_COMMENTS": "CHANGED",
 		//"aid" : data.activity.aid
   };
 
@@ -80,7 +79,6 @@ function openMessage(data) {
       //row - row component for the selected row
       selectedResource = row;
       $("#button-assign").button( "option", "disabled", false );;
-      console.log(row);
       },
     rowDeselected:function(row){
       selectedResource = null;
@@ -95,7 +93,6 @@ function openMessage(data) {
   });
 
   for (const property in data.inventoryList) {
-    console.log(`${property}, ${data.inventoryList[property]}`);
     // Only add provider pool equipment with a serial number
     var item = data.inventoryList[property];
     if (item.invsn != null && item.invpool=="provider")
@@ -150,22 +147,17 @@ function openMessage(data) {
     // Check all selected inventory pieces and assign them to the selected resource
     var selectedInventory = inventory_table.getSelectedData();
     var selectedResource = resource_table.getSelectedData();
-    console.log("Selected resource is array ? "+Array.isArray(selectedResource));
-    console.log(JSON.stringify(selectedResource[0].resourceId));
-    console.log("Selected inventory is array ? "+Array.isArray(selectedInventory));
     var updatedData = selectedInventory.map(function(val){ 
-      console.log("Found "+JSON.stringify(val));
       val.assigned = selectedResource[0].resourceId;
       return val; 
     });
     inventory_table.updateData(updatedData)
     .then(function(){
         //run code after data has been updated
-        console.log("Tabla actualizada");
     })
     .catch(function(error){
         //handle error updating data
-        console.log(error);
+        alert(JSON.stringify(error));
     }); 
   });
 
