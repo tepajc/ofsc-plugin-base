@@ -1,0 +1,1 @@
+zip -r ../InventoryManagement.zip index.html plugin.js style.css -x createPlugin
