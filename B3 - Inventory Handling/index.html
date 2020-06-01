@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Inventory Management</title>
+    <link href="https://unpkg.com/tabulator-tables@4.6.3/dist/css/tabulator.min.css" rel="stylesheet">
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.6.3/dist/js/tabulator.min.js"></script> 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script src="plugin.js"></script>
+    <script>
+      (function($){
+          $(document).ready(function() {
+            initPlugin();
+            $( "#button-assign" ).button({
+               text: "Assign"
+            });
+          });
+      })(jQuery);
+  </script>
+
+</head>
+<body id="body">
+  <div display="none" id="show-data"></div>
+<hr>
+<div class="content" style="padding: 25px">
+  <div class="container" style="display: flex; height: 400px;">
+    <div id="inventory-table" style="width: 40%;">
+      Loading inventory... 
+    </div>
+    <div id="actions-area" style="width: 20%;   display: flex; justify-content: center; padding:10px;">
+      <button id = "button-assign" disabled='true' >
+        Assign
+      </button>
+  </div>
+  <div id="resources-table" style="flex-grow:1">
+        Loading Resources...
+    </div>
+  </div>
+</div>
+
+<div display="none" id="received-data"></div>
+<div data-role="footer" data-theme="d" class="ui-bar" style="padding: 25px;">
+  <button id="button-apply" class = "ui-button ui-widget ui-corner-all">Aplicar Cambios</button>
+  <button id="button-refresh" class = "ui-button ui-widget ui-corner-all">Refrescar</button>
+  <button id="submit" class = "ui-button ui-widget ui-corner-all">Cerrar</button>
+</div>
+</body>
+</html>
