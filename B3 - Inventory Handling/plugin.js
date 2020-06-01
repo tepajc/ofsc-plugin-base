@@ -8,7 +8,7 @@ const ofscUrl = "https://api.etadirect.com";
 function openMessage(data) {
   // PLACEHOLDER FOR CUSTOM CODE
 
-  var element = document.getElementById("received-data");
+  //var element = document.getElementById("received-data");
   //element.innerHTML = "<pre>" + JSON.stringify(data, undefined, 4) + "</pre>";
 
 
@@ -23,16 +23,24 @@ function openMessage(data) {
     }
   });
 
-
+/**
+ * 
+ * @param {string} clientId  Application ID used for the interactions
+ * @param {string} company   Instance name 
+ * @param {string} clientSecret Secret generated for the application
+ */
   function authenticateUser(clientId, company, clientSecret) {
     var token = `${clientId}@${company}:${clientSecret}`;
 
-    // Should i be encoding this value????? does it matter???
-    // Base64 Encoding -> btoa
     var hash = btoa(token);
     return `Basic ${hash}`;
   }
 
+  /**
+   * 
+   * @param {string} invaid   Internal inventory ID
+   * @param {string} to       External Id of the target resource 
+   */
   function moveInventory(invaid, to) {
     return $.getJSON(`${ofscUrl}/rest/ofscCore/v1/inventories/${invaid}`).done(function (data) {
       console.log("Inventory data retrieved:  " + JSON.stringify(data));
