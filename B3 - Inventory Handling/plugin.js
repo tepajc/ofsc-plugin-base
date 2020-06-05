@@ -24,7 +24,7 @@ function openMessage(data) {
   });
 
 /**
- * 
+ * Generates auth token
  * @param {string} clientId  Application ID used for the interactions
  * @param {string} company   Instance name 
  * @param {string} clientSecret Secret generated for the application
@@ -37,7 +37,7 @@ function openMessage(data) {
   }
 
   /**
-   * 
+   * Move inventory item to a target resource
    * @param {string} invaid   Internal inventory ID
    * @param {string} to       External Id of the target resource 
    */
