@@ -10,7 +10,7 @@ function openMessage(data) {
 
 
   var activityData = {
-    "DISPATCHER_COMMENTS": "CHANGED",
+    //"DISPATCHER_COMMENTS": "CHANGED",
 		"aid" : data.activity.aid
   };
 
