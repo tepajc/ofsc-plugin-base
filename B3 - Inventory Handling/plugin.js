@@ -8,8 +8,11 @@ const ofscUrl = "https://api.etadirect.com";
 function openMessage(data) {
   // PLACEHOLDER FOR CUSTOM CODE
 
-  //var element = document.getElementById("received-data");
-  //element.innerHTML = "<pre>" + JSON.stringify(data, undefined, 4) + "</pre>";
+  if (data.securedData.hasOwnProperty("showReceivedData")) {
+    var element = document.getElementById("received-data");
+    element.innerHTML = "<pre>" + JSON.stringify(data, undefined, 4) + "</pre>";
+  }
+
 
 
   var activityData = {
@@ -120,7 +123,7 @@ function openMessage(data) {
   for (const property in data.inventoryList) {
     // Only add provider pool equipment with a serial number
     var item = data.inventoryList[property];
-    if (item.invsn != null && item.invpool == "provider")
+    if (item.invsn != null && (item.invpool == "provider" || item.invpool === undefined))
       inventory_data.push(data.inventoryList[property]);
   };
 
