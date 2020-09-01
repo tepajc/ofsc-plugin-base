@@ -1,0 +1,67 @@
+/*
+    Document   : OFS Plug-In overrides
+    Author     : Robert Surujbhan <robert.surujbhan@oracle.com>
+    Description:
+        plug-in and application specific styles
+*/
+
+body {
+    padding: 25px;
+}
+
+#wsDataTable {
+    width: 70%;
+    margin: 25px 0;
+    border-collapse: collapse;
+}
+
+#wsDataTable table,
+#wsDataTable th,
+#wsDataTable td {
+    border: 1px solid #ff0000;
+}
+
+#wsDataTable th,
+#wsDataTable td {
+    padding: 5px;
+    text-align: left;
+}
+
+#wsDataTable th {
+    background-color: #ff0000;
+    color: #fff;
+}
+
+#wsUpdateButton {
+    background-color: #ff0000;
+    color: #fff;
+    min-width: 170px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 21px;
+    text-transform: uppercase;
+}
+
+#wsUpdateButton:hover {
+    background-color: #800040;
+}
+
+#wsTestButton {
+    background-color: #ff0000;
+    color: #fff;
+    min-width: 170px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 21px;
+    text-transform: uppercase;
+}
+
+#wsTestButton:hover {
+    background-color: #800040;
+}
