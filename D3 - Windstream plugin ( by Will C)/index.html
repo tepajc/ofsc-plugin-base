@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oracle Field Service</title>
+    <link rel="stylesheet" href="./files/oj-alta-min.css" type="text/css"/>
+    <link rel="stylesheet" href="./files/app.css" type="text/css"/>
+</head>
+<body>
+    <img src="./files/logo.svg" alt="windstream logo">
+    <h2>Whole House Check</h2>
+    <div id="content"></div>
+    <br/>
+    <div id="empCount"></div>
+    <div id="emps"></div>
+    <br/>
+    <button id="wsUpdateButton">Update Activity</button>
+    <br/>
+    <table id="wsDataTable">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <!-- no rows -->
+            </tr>
+        </tbody>
+    </table>
+    <script src="./files/jquery.min.js"></script>
+    <script src="./files/ofscPlugin.js"></script>
+    <script src="./files/data.js"></script>
+    <script src="./files/app.js"></script>
+    <script>
+        init(); // send 'ready' message to OFS
+        processData(); // populate table using static JSON data
+    </script>
+</body>
+</html>
