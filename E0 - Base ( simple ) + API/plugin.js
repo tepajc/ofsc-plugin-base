@@ -1,14 +1,21 @@
 "use strict";
 
 var activity;
+var proxy;
 
 function openMessage(data) {
   <!--PLACEHOLDER FOR CUSTOM CODE-- >
 
   var element = document.getElementById("received-data");
   element.innerHTML = "<pre>" + JSON.stringify(data, undefined, 4) + "</pre>";
+  // Credential data from the Plugin configuration
+  var instance = data.securedData.ofscInstance;
+  var clientId = data.securedData.ofscRestClientId;
+  var clientSecret = data.securedData.ofscRestClientSecret;
+  var baseURL = data.securedData.ofscRestEndpoint;
+  proxy = new OFSCProxy(instance, clientId, clientSecret, baseURL);
 
-
+  console.log()
   var activityData = {
     //"DISPATCHER_COMMENTS": "CHANGED",
 		"aid" : data.activity.aid

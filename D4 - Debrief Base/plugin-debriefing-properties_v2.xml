@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<root>
+  <format version="1"/>
+  <product version="19.5.0"/>
+  <properties>
+    <property label="csign" entity="appt" type="file" gui="signature" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="1" val="Signature"/>
+      </names>
+    </property>
+    <property label="labor_service_activity" entity="inventory" type="enum" gui="combobox" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="0" val="Labor Activity"/>
+      </names>
+      <lookups>
+        <lookup lang="en" active="1" val="Commute" index="com"/>
+        <lookup lang="en" active="1" val="Diagnose and Repair" index="drp"/>
+      </lookups>
+    </property>
+    <property label="labor_item_number" entity="inventory" type="enum" gui="combobox" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="0" val="Labor Item"/>
+      </names>
+      <lookups>
+        <lookup lang="en" active="1" val="Travel Time" index="trv"/>
+        <lookup lang="en" active="1" val="FS Regular Labor" index="reg"/>
+        <lookup lang="en" active="1" val="FS Overtime Labor" index="ovr"/>
+      </lookups>
+    </property>
+    <property label="labor_item_desc" entity="inventory" type="enum" gui="combobox" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="0" val="Labor Item Description"/>
+      </names>
+      <lookups>
+        <lookup lang="en" active="1" val="FS Tech Actual Travel" index="trv"/>
+        <lookup lang="en" active="1" val="Regular Labor Time" index="reg"/>
+        <lookup lang="en" active="1" val="Overtime Labor Time" index="ovr"/>
+      </lookups>
+    </property>
+    <property label="labor_start_time" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Labor Start Time"/>
+      </names>
+    </property>
+    <property label="labor_end_time" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Labor End Time"/>
+      </names>
+    </property>
+    <property label="expense_service_activity" entity="inventory" type="enum" gui="combobox" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="0" val="Expense Activity"/>
+      </names>
+      <lookups>
+        <lookup lang="en" active="1" val="Travel" index="trv"/>
+        <lookup lang="en" active="1" val="Miscellaneous" index="msc"/>
+      </lookups>
+    </property>
+    <property label="expense_item_number" entity="inventory" type="enum" gui="combobox" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="0" val="Expense Item"/>
+      </names>
+      <lookups>
+        <lookup lang="en" active="1" val="Toll Charges" index="tol"/>
+        <lookup lang="en" active="1" val="Parking" index="prk"/>
+      </lookups>
+    </property>
+    <property label="expense_item_desc" entity="inventory" type="enum" gui="combobox" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="0" val="Expense Item Description"/>
+      </names>
+      <lookups>
+        <lookup lang="en" active="1" val="Toll Charges for Service" index="tol"/>
+        <lookup lang="en" active="1" val="Parking Charges for Service" index="prk"/>
+      </lookups>
+    </property>
+    <property label="part_service_activity_used" entity="inventory" type="enum" gui="combobox" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="0" val="Activity (Used)"/>
+      </names>
+      <lookups>
+        <lookup lang="en" active="1" val="Install" index="IN"/>
+        <lookup lang="en" active="1" val="Warranty Install" index="W_IN"/>
+      </lookups>
+    </property>
+    <property label="part_service_activity_returned" entity="inventory" type="enum" gui="combobox" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="0" val="Activity (returned)"/>
+      </names>
+      <lookups>
+        <lookup lang="en" active="1" val="Return" index="RET"/>
+        <lookup lang="en" active="1" val="Warranty Return" index="W_RET"/>
+      </lookups>
+    </property>
+    <property label="part_item_number_rev" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Part Item + Revision"/>
+      </names>
+    </property>
+    <property label="part_item_number" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Part Item"/>
+      </names>
+    </property>
+    <property label="part_item_revision" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Part Item Revision"/>
+      </names>
+    </property>
+    <property label="part_item_desc" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Part Item Description"/>
+      </names>
+    </property>
+    <property label="part_uom_code" entity="inventory" type="enum" gui="combobox" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="0" val="Part Unit of Measure"/>
+      </names>
+      <lookups>
+        <lookup lang="en" active="1" val="ea" index="ea"/>
+        <lookup lang="en" active="1" val="m" index="m"/>
+        <lookup lang="en" active="1" val="in" index="in"/>
+      </lookups>
+    </property>
+    <property label="part_disposition_code" entity="inventory" type="enum" gui="combobox" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="0" val="Part Disposition"/>
+      </names>
+      <lookups>
+        <lookup lang="en" active="1" val="No Return" index="N"/>
+        <lookup lang="en" active="1" val="Slow Return" index="S"/>
+        <lookup lang="en" active="1" val="Fast Return" index="M"/>
+      </lookups>
+    </property>
+    <property label="expense_currency_code" entity="inventory" type="enum" gui="combobox" duplicate="0" line_count="0">
+      <names>
+        <name lang="en" active="0" val="Expense Currency"/>
+      </names>
+      <lookups>
+        <lookup lang="en" active="1" val="$|US Dollars" index="USD"/>
+        <lookup lang="en" active="1" val="€|Euro" index="EUR"/>
+      </lookups>
+    </property>
+    <property label="expense_amount" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="0" val="Expense"/>
+      </names>
+    </property>
+    <property label="ccompany" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Company name"/>
+      </names>
+    </property>
+    <property label="invoice" entity="appt" type="file" gui="file" duplicate="0" mime_types="application/pdf" file_size_limit="5">
+      <names>
+        <name lang="en" active="1" val="Invoice"/>
+      </names>
+    </property>
+  </properties>
+</root>

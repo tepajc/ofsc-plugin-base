@@ -1,0 +1,7 @@
+CACHE MANIFEST
+
+NETWORK:
+*
+
+FALLBACK:
+main.js main-offline.js

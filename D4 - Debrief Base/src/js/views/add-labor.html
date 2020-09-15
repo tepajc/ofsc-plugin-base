@@ -1,0 +1,76 @@
+<div class="oj-flex oj-padding-top oj-md-padding-4x-vertical plugin-main-container">
+    <div class="oj-sm-12 oj-flex-item oj-sm-padding-2x-horizontal">
+        <h3>Add Time</h3>
+        <div class="oj-form oj-panel oj-sm-odd-cols-12 oj-md-odd-cols-4 oj-md-labels-inline" >
+            <div class="oj-flex">
+                <div class="oj-flex-item">
+                    <oj-label for="activity" show-required>Activity</oj-label>
+                </div>
+                <div class="oj-flex-item">
+                    <oj-select-one class="input-wide" id="activity" options="[[activityEnumArray]]" value="{{activityId}}"></oj-select-one>
+                </div>
+            </div>
+            <div class="oj-flex">
+                <div class="oj-flex-item">
+                    <oj-label for="laborItem" show-required>Item</oj-label>
+                </div>
+                <div class="oj-flex-item">
+                    <oj-select-one class="input-wide" id="laborItem" options="[[laborItemEnumArray]]" value="{{laborItemId}}"></oj-select-one>
+                </div>
+            </div>
+            <div class="oj-flex">
+                <div class="oj-flex-item">
+                    <oj-label for="itemDescription">Description</oj-label>
+                </div>
+                <div class="oj-flex-item">
+                    <oj-input-text id="itemDescription" value="[[laborItemDescription]]" readonly></oj-input-text>
+                </div>
+            </div>
+            <div class="oj-flex">
+                <div class="oj-flex-item">
+                    <oj-label for="startTime" show-required>Start Time</oj-label>
+                </div>
+                <div class="oj-flex-item">
+                    <oj-input-time id="startTimeEl"
+                                   class="input-wide"
+                                   value={{startTime}}
+                                   time-picker='{ "timeIncrement":"00:01:00:00" }'
+                                   required
+                                   on-valid-changed='[[onStartTimeValidChanged]]'>
+                    </oj-input-time>
+                </div>
+            </div>
+            <div class="oj-flex">
+                <div class="oj-flex-item">
+                    <oj-label for="endTime" show-required>End Time</oj-label>
+                </div>
+                <div class="oj-flex-item">
+                    <oj-input-time id="endTimeEl"
+                                   class="input-wide"
+                                   value={{endTime}}
+                                   validators="[[[durationValidator]]]"
+                                   time-picker='{ "timeIncrement":"00:01:00:00" }'
+                                   required
+                                   on-valid-changed='[[onEndTimeValidChanged]]'
+                                   messages-custom="{{appMessages}}">
+                    </oj-input-time>
+                </div>
+            </div>
+            <div class="oj-flex" data-bind="visible: durationHours() !== ''">
+                <div class="oj-flex-item">
+                    <oj-label for="durationHours">Duration (hrs)</oj-label>
+                </div>
+                <div class="oj-flex-item">
+                    <oj-input-text id="durationHours" value="[[durationHours]]" readonly></oj-input-text>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-actions oj-margin-vertical">
+            <oj-button on-click='[[onCloseButtonClick.bind($data)]]'>Dismiss</oj-button>
+            <oj-button class="oj-button-primary" id="addItemBtn" disabled="[[isSubmitDisabled]]"
+                       on-click="[[addLabor.bind($data, { activityId: '1', itemId: '1', startTime: '10', endTime: '20', duration: '1h' })]]"
+                >Add Item</oj-button>
+        </div>
+    </div>
+</div>

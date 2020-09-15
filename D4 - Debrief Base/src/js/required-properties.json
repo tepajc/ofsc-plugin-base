@@ -1,0 +1,564 @@
+{
+  "format": 1,
+  "product": "19.5.0",
+  "properties": [
+    {
+      "label": "csign",
+      "create": true,
+      "entity": "activity",
+      "type": "file",
+      "gui": "signature",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 1,
+        "val": "Signature"
+      }
+    },
+    {
+      "label": "labor_service_activity",
+      "create": true,
+      "entity": "inventory",
+      "type": "enum",
+      "gui": "combobox",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Labor Activity"
+      },
+      "lookups": [
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Commute",
+          "index": "com"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Diagnose and Repair",
+          "index": "drp"
+        }
+      ]
+    },
+    {
+      "label": "labor_item_number",
+      "create": true,
+      "entity": "inventory",
+      "type": "enum",
+      "gui": "combobox",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Labor Item"
+      },
+      "lookups": [
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Travel Time",
+          "index": "trv"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "FS Regular Labor",
+          "index": "reg"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "FS Overtime Labor",
+          "index": "ovr"
+        }
+      ]
+    },
+    {
+      "label": "labor_item_desc",
+      "create": true,
+      "entity": "inventory",
+      "type": "enum",
+      "gui": "combobox",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Labor Item Description"
+      },
+      "lookups": [
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "FS Tech Actual Travel",
+          "index": "trv"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Regular Labor Time",
+          "index": "reg"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Overtime Labor Time",
+          "index": "ovr"
+        }
+      ]
+    },
+    {
+      "label": "labor_start_time",
+      "create": true,
+      "entity": "inventory",
+      "type": "string",
+      "gui": "text",
+      "duplicate": 0,
+      "line_count": 1,
+      "name": {
+        "lang": "en",
+        "active": 1,
+        "val": "Labor Start Time"
+      }
+    },
+    {
+      "label": "labor_end_time",
+      "create": true,
+      "entity": "inventory",
+      "type": "string",
+      "gui": "text",
+      "duplicate": 0,
+      "line_count": 1,
+      "name": {
+        "lang": "en",
+        "active": 1,
+        "val": "Labor End Time"
+      }
+    },
+    {
+      "label": "expense_service_activity",
+      "create": true,
+      "entity": "inventory",
+      "type": "enum",
+      "gui": "combobox",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Expense Activity"
+      },
+      "lookups": [
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Travel",
+          "index": "trv"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Miscellaneous",
+          "index": "msc"
+        }
+      ]
+    },
+    {
+      "label": "expense_item_number",
+      "create": true,
+      "entity": "inventory",
+      "type": "enum",
+      "gui": "combobox",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Expense Item"
+      },
+      "lookups": [
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Toll Charges",
+          "index": "tol"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Parking",
+          "index": "prk"
+        }
+      ]
+    },
+    {
+      "label": "expense_item_desc",
+      "create": true,
+      "entity": "inventory",
+      "type": "enum",
+      "gui": "combobox",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Expense Item Description"
+      },
+      "lookups": [
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Toll Charges for Service",
+          "index": "tol"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Parking Charges for Service",
+          "index": "prk"
+        }
+      ]
+    },
+    {
+      "label": "part_service_activity_used",
+      "create": true,
+      "entity": "inventory",
+      "type": "enum",
+      "gui": "combobox",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Activity (Used)"
+      },
+      "lookups": [
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Install",
+          "index": "IN"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Warranty Install",
+          "index": "W_IN"
+        }
+      ]
+    },
+    {
+      "label": "part_service_activity_returned",
+      "create": true,
+      "entity": "inventory",
+      "type": "enum",
+      "gui": "combobox",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Activity (returned)"
+      },
+      "lookups": [
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Return",
+          "index": "RET"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Warranty Return",
+          "index": "W_RET"
+        }
+      ]
+    },
+    {
+      "label": "part_item_number_rev",
+      "create": true,
+      "entity": "inventory",
+      "type": "string",
+      "gui": "text",
+      "duplicate": 0,
+      "line_count": 1,
+      "name": {
+        "lang": "en",
+        "active": 1,
+        "val": "Part Item + Revision"
+      }
+    },
+    {
+      "label": "part_item_number",
+      "create": true,
+      "entity": "inventory",
+      "type": "string",
+      "gui": "text",
+      "duplicate": 0,
+      "line_count": 1,
+      "name": {
+        "lang": "en",
+        "active": 1,
+        "val": "Part Item"
+      }
+    },
+    {
+      "label": "part_item_revision",
+      "create": true,
+      "entity": "inventory",
+      "type": "string",
+      "gui": "text",
+      "duplicate": 0,
+      "line_count": 1,
+      "name": {
+        "lang": "en",
+        "active": 1,
+        "val": "Part Item Revision"
+      }
+    },
+    {
+      "label": "part_item_desc",
+      "create": true,
+      "entity": "inventory",
+      "type": "string",
+      "gui": "text",
+      "duplicate": 0,
+      "line_count": 1,
+      "name": {
+        "lang": "en",
+        "active": 1,
+        "val": "Part Item Description"
+      }
+    },
+    {
+      "label": "part_uom_code",
+      "create": true,
+      "entity": "inventory",
+      "type": "enum",
+      "gui": "combobox",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Part Unit of Measure"
+      },
+      "lookups": [
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "ea",
+          "index": "ea"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "m",
+          "index": "m"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "in",
+          "index": "in"
+        }
+      ]
+    },
+    {
+      "label": "part_disposition_code",
+      "create": true,
+      "entity": "inventory",
+      "type": "enum",
+      "gui": "combobox",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Part Disposition"
+      },
+      "lookups": [
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "No Return",
+          "index": "N"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Slow Return",
+          "index": "S"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "Fast Return",
+          "index": "M"
+        }
+      ]
+    },
+    {
+      "label": "expense_currency_code",
+      "create": true,
+      "entity": "inventory",
+      "type": "enum",
+      "gui": "combobox",
+      "duplicate": 0,
+      "line_count": 0,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Expense Currency"
+      },
+      "lookups": [
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "$|US Dollars",
+          "index": "USD"
+        },
+        {
+          "lang": "en",
+          "active": 1,
+          "val": "€|Euro",
+          "index": "EUR"
+        }
+      ]
+    },
+    {
+      "label": "expense_amount",
+      "create": true,
+      "entity": "inventory",
+      "type": "string",
+      "gui": "text",
+      "duplicate": 0,
+      "line_count": 1,
+      "name": {
+        "lang": "en",
+        "active": 0,
+        "val": "Expense"
+      }
+    },
+    {
+      "label": "ccompany",
+      "create": true,
+      "entity": "activity",
+      "type": "string",
+      "gui": "text",
+      "duplicate": 0,
+      "line_count": 1,
+      "name": {
+        "lang": "en",
+        "active": 1,
+        "val": "Company name"
+      }
+    },
+    {
+      "label": "invoice",
+      "create": true,
+      "entity": "activity",
+      "type": "file",
+      "gui": "file",
+      "duplicate": 0,
+      "name": {
+        "lang": "en",
+        "active": 1,
+        "val": "Invoice"
+      },
+      "mime_types": "application/pdf",
+      "file_size_limit": 5
+    },
+    {
+      "label": "pid",
+      "entity": "provider",
+      "create": false
+    },
+    {
+      "label": "pname",
+      "entity": "provider",
+      "create": false
+    },
+    {
+      "label": "astatus",
+      "entity": "activity",
+      "create": false
+    },
+    {
+      "label": "aid",
+      "entity": "activity",
+      "create": false
+    },
+    {
+      "label": "cname",
+      "entity": "activity",
+      "create": false
+    },
+    {
+      "label": "caddress",
+      "entity": "activity",
+      "create": false
+    },
+    {
+      "label": "ccity",
+      "entity": "activity",
+      "create": false
+    },
+    {
+      "label": "cstate",
+      "entity": "activity",
+      "create": false
+    },
+    {
+      "label": "czip",
+      "entity": "activity",
+      "create": false
+    },
+    {
+      "label": "appt_number",
+      "entity": "activity",
+      "create": false
+    },
+    {
+      "label": "invid",
+      "entity": "inventory",
+      "create": false
+    },
+    {
+      "label": "inv_aid",
+      "entity": "inventory",
+      "create": false
+    },
+    {
+      "label": "inv_pid",
+      "entity": "inventory",
+      "create": false
+    },
+    {
+      "label": "invpool",
+      "entity": "inventory",
+      "create": false
+    },
+    {
+      "label": "invtype",
+      "entity": "inventory",
+      "create": false
+    },
+    {
+      "label": "quantity",
+      "entity": "inventory",
+      "create": false
+    }
+  ],
+  "plugin": {
+    "label": "debriefing_plugin",
+    "lang": "en",
+    "val": "Debrief"
+  }
+}

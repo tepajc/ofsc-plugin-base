@@ -1,0 +1,155 @@
+<section class="oj-flex oj-flex-items-pad oj-padding-bottom oj-md-padding-4x-vertical plugin-main-container">
+        <section class="oj-flex-item oj-sm-12 oj-md-6">
+            <!-- Time and Labor -->
+            <h3 class="oj-flex-bar oj-sm-align-items-center">
+                <span class="icon-time-spent"></span>
+                <div class="oj-flex-item">Time Spent</div>
+                <div class="oj-flex-end">
+                    <oj-button class="button-add" data-bind="visible: selectedLabors().length > 0" chroming="half" on-click="[[removeSelectedLabors.bind($data)]]" display="icons" style="margin-bottom: 0;">
+                        <span class="icon-remove"></span>
+                    </oj-button>
+                    <oj-button class="button-add" chroming="half" on-click="[[gotoAddLabor.bind($data)]]" display="icons">
+                        <span class="icon-add"></span>
+                    </oj-button>
+                </div>
+            </h3>
+            <oj-list-view data="[[laborDataProvider]]" selection-mode="multiple" class="dashboard-list" selection="{{selectedLabors}}">
+                <template slot='itemTemplate'>
+                    <div class="oj-flex">
+                        <div class="oj-flex-item">
+                            <div>
+                                <span class="name" data-bind="text: $current.data.item_text"></span>
+                            </div>
+                            <div>
+                                <span class="oj-text-xs oj-text-tertiary-color" data-bind="text: $current.data.item_label"></span>
+                            </div>
+                            <div>
+                                <span class="oj-text-xs oj-text-tertiary-color" data-bind="text: $current.data.activity_text"></span>
+                            </div>
+                        </div>
+                        <div class="oj-flex-item oj-sm-flex-initial">
+                            <span class="oj-text-md oj-text-tertiary-color" data-bind="text: formatDuration($current.data.duration)"></span>
+                        </div>
+                    </div>
+                </template>
+            </oj-list-view>
+
+            <!-- Expenses -->
+            <h3 class="oj-flex-bar oj-sm-align-items-center">
+                 <span class="icon-expenses"></span>
+                <div class="oj-flex-item">Expenses</div>
+                <div class="oj-flex-end">
+                    <oj-button class="button-add" data-bind="visible: selectedExpenses().length > 0" chroming="half" on-click="[[removeSelectedExpenses.bind($data)]]" display="icons" style="margin-bottom: 0;">
+                        <span class="icon-remove"></span>
+                    </oj-button>
+                    <oj-button class="button-add" chroming="half" on-click="[[gotoAddExpense.bind($data)]]" display="icons">
+                        <span class="icon-add"></span>
+                    </oj-button>
+                </div>
+            </h3>
+            <oj-list-view data="[[expenseDataProvider]]" selection-mode="multiple" class="dashboard-list" selection="{{selectedExpenses}}">
+                <template slot='itemTemplate'>
+                    <div class="oj-flex">
+                        <div class="oj-flex-item">
+                            <div>
+                                <span class="name" data-bind="text: $current.data.item_text"></span>
+                            </div>
+                            <div>
+                                <span class="oj-text-xs oj-text-tertiary-color" data-bind="text: $current.data.item_label"></span>
+                            </div>
+                            <div>
+                                <span class="oj-text-xs oj-text-tertiary-color" data-bind="text: $current.data.activity_text"></span>
+                            </div>
+                        </div>
+                        <div class="oj-flex-item oj-sm-flex-initial">
+                            <span class="oj-text-md oj-text-tertiary-color" data-bind="text: $current.data.currency_sign"></span>
+                            <span class="oj-text-md oj-text-tertiary-color" data-bind="text: $current.data.amount"></span>
+                        </div>
+                    </div>
+                </template>
+            </oj-list-view>
+        </section>
+
+        <section class="oj-flex-item oj-sm-12 oj-md-6">
+            <!-- Added Parts -->
+            <h3 class="oj-flex-bar oj-sm-align-items-center">
+                <span class="icon-inventoty-install"></span>
+                <div class="oj-flex-item">Added Parts</div>
+                <div class="oj-flex-end">
+                    <oj-button class="button-add" data-bind="visible: selectedUsedParts().length > 0" chroming="half" on-click="[[removeSelectedUsedParts.bind($data)]]" display="icons" style="margin-bottom: 0;">
+                        <span class="icon-remove"></span>
+                    </oj-button>
+                    <oj-button class="button-add" chroming="half" on-click="[[gotoAddUsedPart.bind($data)]]" display="icons">
+                        <span class="icon-add"></span>
+                    </oj-button>
+                </div>
+            </h3>
+            <oj-list-view data="[[usedPartsDataSource]]" class="oj-list-view--margin dashboard-list" selection-mode="multiple" selection="{{selectedUsedParts}}">
+                <template slot='itemTemplate'>
+                    <div class="oj-flex">
+                        <div class="oj-flex-item">
+                            <div>
+                                <span class="oj-text-md oj-text-primary-color" data-bind="text: $current.data.inventory.get('part_item_number_rev')"></span>
+                            </div>
+                            <div class="oj-text-xs oj-text-tertiary-color">
+                                <span data-bind="text: $current.data.inventory.get('part_item_desc')"></span>
+                            </div>
+                            <div class="oj-text-xs oj-text-tertiary-color">
+                                <span data-bind="text: $current.data.serviceActivityUsed"></span>
+                            </div>
+                        </div>
+                        <div class="oj-flex-item oj-sm-flex-initial">
+                            <span class="oj-text-md oj-text-tertiary-color" data-bind="text: $current.data.measuredQuantity"></span>
+                        </div>
+                    </div>
+                </template>
+            </oj-list-view>
+
+
+            <!-- Returned Parts -->
+            <h3 class="oj-flex-bar oj-sm-align-items-center">
+                 <span class="icon-inventoty-deinstall"></span>
+                <div class="oj-flex-item">Returned Parts</div>
+                <div class="oj-flex-end">
+                    <oj-button class="button-add" data-bind="visible: selectedReturnedParts().length > 0" chroming="half" on-click="[[removeSelectedReturnedParts.bind($data)]]" display="icons" style="margin-bottom: 0;">
+                        <span class="icon-remove"></span>
+                    </oj-button>
+                    <oj-button class="button-add" chroming="half" on-click="[[gotoAddReturnedPart.bind($data)]]" display="icons">
+                        <span class="icon-add"></span>
+                    </oj-button>
+                </div>
+            </h3>
+            <oj-list-view data="[[returnedPartsDataSource]]" selection-mode="multiple" class="dashboard-list" selection="{{selectedReturnedParts}}">
+                <template slot='itemTemplate'>
+                    <div class="oj-flex">
+                        <div class="oj-flex-item">
+                            <div>
+                                <span class="oj-text-md oj-text-primary-color" data-bind="text: $current.data.inventory.get('part_item_number_rev')"></span>
+                            </div>
+                            <div class="oj-text-xs oj-text-tertiary-color">
+                                <span data-bind="text: $current.data.inventory.get('part_item_desc')"></span>
+                            </div>
+                            <div class="oj-text-xs oj-text-tertiary-color">
+                                <span data-bind="text: $current.data.serviceActivityReturned"></span>
+                            </div>
+                        </div>
+                        <div class="oj-flex-item oj-sm-flex-initial">
+                            <span class="oj-text-md oj-text-tertiary-color" data-bind="text: $current.data.measuredQuantity"></span>
+                        </div>
+                    </div>
+                </template>
+            </oj-list-view>
+
+            <div class="actions-container">
+                <section class="dashboard-actions oj-flex oj-flex-items-pad oj-sm-12 oj-md-12">
+                    <oj-button class="oj-flex-item" on-click='[[onCloseButtonClick.bind($data)]]'>Dismiss</oj-button>
+                    <oj-button class="oj-flex-item" on-click='[[onSaveButtonClick.bind($data)]]'>Save Draft</oj-button>
+                    <oj-button class="oj-button-primary oj-flex-item"
+                               on-click='[[onPreviewInvoiceButtonClick.bind($data)]]'>Sign and Save</oj-button>
+                </section>
+            </div>
+        </section>
+
+    </div>
+</div>
+

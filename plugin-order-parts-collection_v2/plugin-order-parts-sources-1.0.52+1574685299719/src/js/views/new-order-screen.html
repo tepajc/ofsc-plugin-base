@@ -1,0 +1,116 @@
+<div data-bind="if: loaded">
+    <!-- ko ifnot: app.currentOrder().orderItems.length -->
+    <div>
+        <div class="empty-cart"></div>
+        <div class="no-data-text">You don't have any parts to order</div>
+        <div class="no-data-text">You can add parts to order by searching in parts catalog</div>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: app.currentOrder().orderItems.length -->
+    <oj-validation-group id="new-order-group-validation" valid="{{groupValid}}">
+        <oj-form-layout label-edge="[[labelEdge]]">
+
+            <oj-label for="order_destination_types" show-required="true">Order is for</oj-label>
+            <oj-radioset
+                id="order_destination_types"
+                options="[[destinationTypesDataProvider]]"
+                value="{{app.currentOrder().$destinationType}}"
+            ></oj-radioset>
+
+            <!-- ko if: app.currentOrder().destinationType === OrderModel.DESTINATION_TYPES.activity.key -->
+            <oj-label for="selected-activity" show-required="true">Activity</oj-label>
+            <oj-select-one
+                id="selected-activity"
+                options="[[activityListDataProvider]]"
+                value="{{app.currentOrder().$customerActivity}}"
+            ></oj-select-one>
+
+            <oj-label style="display: none;"><!-- hack to hide label area --></oj-label>
+            <oj-checkboxset value="{{createFollowUpOptions}}">
+                <oj-option value="createFollowUp">Create follow-up activity</oj-option>
+            </oj-checkboxset>
+            <!-- /ko -->
+
+            <oj-label for="order_needed_by_date" show-required="true">Needed By</oj-label>
+            <oj-input-date id="order_needed_by_date" value="{{app.currentOrder().neededByDate}}"></oj-input-date>
+
+            <oj-label for="order_delivery_to" aria-label="oj-input-number component" show-required="true">Delivery to</oj-label>
+            <div class="oj-form-control-group" role="group">
+                <oj-select-one
+                    id="order_delivery_to"
+                    options="[[pickUpLocationsListDataProvider]]"
+                    value="{{formValues.selectedPickUpLocationId}}"
+                    aria-label=""
+                    label-hint=""
+                ></oj-select-one>
+                <div data-bind="text: readOnlyAddress"></div>
+            </div>
+        </oj-form-layout>
+
+
+        <oj-list-view
+            class="oj-margin-top"
+            data="{{orderItemsDataProvider}}"
+            selection-mode="none"
+        >
+            <template slot="itemTemplate">
+                <div class="oj-flex">
+                    <div class="oj-flex-item item-image-block">
+                        <img :src="[[$current.data.imgUrl]]"
+                             :alt="[[$current.data.label]]"
+                             data-bind="visible: $current.data.imgUrl" />
+                        <span class="plugin-icons part-abstract-icon" data-bind="visible: !$current.data.imgUrl"></span>
+                    </div>
+                    <div class="oj-flex-item item-data-block">
+                        <div>
+                            <span class="header" data-bind="text: $current.data.label"></span>
+                        </div>
+                        <div data-bind="foreach: {data: getPreviewFields($current.data), as: 'field'}">
+                            <div class="data">
+                                <b data-bind="text: field.title"></b>:
+                                <oj-bind-text value="[[field.value]]"></oj-bind-text>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <oj-label data-bind="attr: { for: 'quantity' + $current.data.itemId }">Quantity:</oj-label>
+                <oj-input-number
+                    data-bind="attr: { id: 'quantity' + $current.data.itemId }"
+                    min="1"
+                    style="width: 120px;"
+                    on-value-changed="[[updateQuantity.bind($data)]]"
+                    value="{{$current.data.quantity}}"></oj-input-number>
+
+                <oj-button chroming="half" on-oj-action="[[removeItem.bind($data, $current.data)]]">
+                    Remove
+                </oj-button>
+            </template>
+        </oj-list-view>
+    </oj-validation-group>
+
+    <div style="margin-top: 12px;">
+        <oj-button on-oj-action='[[dismissOrder.bind($data)]]'>Dismiss</oj-button>
+        <oj-button class="oj-button-primary" on-oj-action='[[submitOrder.bind($data)]]'>Submit</oj-button>
+    </div>
+
+    <!-- /ko -->
+
+</div>
+
+<oj-dialog id="popup" dialog-title="Alert">
+    <div slot="body" data-bind="text: _popupText"></div>
+    <div slot="footer">
+        <oj-button class="oj-button-primary" on-oj-action='[[popupClose.bind($data)]]'>Ok</oj-button>
+    </div>
+</oj-dialog>
+
+
+<oj-dialog id="confirm" dialog-title="Confirm">
+    <div slot="body" data-bind="text: _popupText"></div>
+    <div slot="footer">
+        <oj-button on-oj-action='[[confirmClose.bind($data, false)]]'>Cancel</oj-button>
+        <oj-button  class="oj-button-primary" on-oj-action='[[confirmClose.bind($data, true)]]'>Ok</oj-button>
+    </div>
+</oj-dialog>

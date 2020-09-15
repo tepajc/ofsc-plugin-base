@@ -1,6 +1,8 @@
 "use strict";
 
-var proxy = new OFSCProxy();
+var proxy;
+// TODO : If this doesn't work, change to var proxy = new OFSCProxy();
+
 var internalData = {};
 Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
@@ -14,6 +16,11 @@ function openMessage(data) {
   //var element = document.getElementById("received-data");
   //element.innerHTML = "<pre>" + JSON.stringify(data, undefined, 4) + "</pre>";
 
+  var instance = data.securedData.ofscInstance;
+  var clientId = data.securedData.ofscRestClientId;
+  var clientSecret = data.securedData.ofscRestClientSecret;
+  var baseURL = data.securedData.ofscRestEndpoint;
+  proxy = new OFSCProxy(instance, clientId, clientSecret, baseURL);
   var clousureData = {
     //"DISPATCHER_COMMENTS": "CHANGED",
 	//	"pid" : data.resource.pid

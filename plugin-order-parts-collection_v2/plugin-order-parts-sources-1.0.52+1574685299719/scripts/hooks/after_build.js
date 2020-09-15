@@ -1,0 +1,19 @@
+/**
+  Copyright (c) 2015, 2019, Oracle and/or its affiliates.
+  The Universal Permissive License (UPL), Version 1.0
+*/
+
+'use strict';
+
+module.exports = function (configObj) {
+    return new Promise((resolve, reject) => {
+        console.log("Running after_build hook.");
+        if (configObj.buildType == 'release' && configObj.platform == 'web') {
+            console.log('Running grunt to deploy into dist');
+            var grunt = require('grunt');
+            grunt.tasks('distribute', {}, resolve());
+            return;
+        }
+        resolve();
+    });
+};

@@ -1,0 +1,52 @@
+<div class="oj-flex oj-padding-top oj-md-padding-4x-vertical plugin-main-container">
+    <div class="oj-sm-12 oj-flex-item oj-sm-padding-2x-horizontal">
+        <h3>Add Expense</h3>
+        <div class="oj-form oj-panel oj-sm-odd-cols-12 oj-md-odd-cols-4 oj-md-labels-inline">
+            <div class="oj-flex">
+                <div class="oj-flex-item">
+                    <oj-label for="activity" show-required>Activity</oj-label>
+                </div>
+                <div class="oj-flex-item">
+                    <oj-select-one class="input-wide" id="activity" options="[[activityEnumArray]]" value="{{activityId}}"></oj-select-one>
+                </div>
+            </div>
+            <div class="oj-flex">
+                <div class="oj-flex-item">
+                    <oj-label for="laborItem" show-required>Item</oj-label>
+                </div>
+                <div class="oj-flex-item">
+                    <oj-select-one class="input-wide" id="laborItem" options="[[expenseItemEnumArray]]" value="{{expenseItemId}}"></oj-select-one>
+                </div>
+            </div>
+            <div class="oj-flex">
+                <div class="oj-flex-item">
+                    <oj-label for="itemDescription">Description</oj-label>
+                </div>
+                <div class="oj-flex-item">
+                    <oj-input-text id="itemDescription" value="[[expenseItemDescription]]" readonly></oj-input-text>
+                </div>
+            </div>
+            <div class="oj-flex">
+                <div class="oj-flex-item">
+                    <oj-label for="amount" show-required>Amount</oj-label>
+                </div>
+                <div class="oj-flex-item">
+                    <oj-input-number id="amount" class="input-wide" value="{{amount}}" step="0.01" min="0"></oj-input-number>
+                </div>
+            </div>
+            <div class="oj-flex">
+                <div class="oj-flex-item">
+                    <oj-label for="currency" show-required>Currency</oj-label>
+                </div>
+                <div class="oj-flex-item">
+                    <oj-select-one class="input-wide" id="currency" options="[[expenseCurrencyEnumArray]]" value="{{currencyKey}}"></oj-select-one>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-actions oj-margin-vertical">
+            <oj-button on-click='[[dispose.bind($data)]]'>Dismiss</oj-button>
+            <oj-button class="oj-button-primary" on-click="[[submit.bind($data)]]">Add Item</oj-button>
+        </div>
+    </div>
+</div>

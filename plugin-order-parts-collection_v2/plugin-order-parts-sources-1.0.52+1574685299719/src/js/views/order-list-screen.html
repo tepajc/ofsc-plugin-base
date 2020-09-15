@@ -1,0 +1,223 @@
+<!-- ko if: isLoaded -->
+<div class="search-input-wrapper oj-margin-top">
+    <oj-input-text class="search-input"
+                   placeholder="Search"
+                   virtual-keyboard="search"
+                   aria-label="filter value"
+                   value="{{filterValue}}"></oj-input-text>
+    <oj-button class="barcode-reader-button"
+               display="icons" data-bind="visible: isBarcodeReaderAvailable"
+               on-oj-action="[[callBarcodeReader.bind($data)]]">
+        <span slot="startIcon" class="plugin-icons barcode-enabled-icon"></span>Barcode Scanner
+    </oj-button>
+</div>
+
+<oj-list-view class="oj-margin-top no-padding"
+              aria-label="list of ordered parts"
+              data="[[dataSource]]"
+              selection-mode="none">
+
+    <template slot="itemTemplate">
+
+        <oj-collapsible class="no-bottom-margin">
+            <div slot="header">
+                <div class="oj-flex oj-md-flex-wrap-nowrap full-width">
+                    <div class="oj-flex-item oj-sm-flex-0 oj-margin-end item-image-block">
+                        <img :src="[[$current.data.orderItemModel.imgUrl]]"
+                             :alt="[[$current.data.orderItemModel.label]]"
+                             data-bind="visible: $current.data.orderItemModel.imgUrl"/>
+                        <span class="plugin-icons part-abstract-icon" data-bind="visible: !$current.data.orderItemModel.imgUrl"></span>
+                    </div>
+                    <div class="oj-flex-item">
+                        <div class="oj-sm-margin-1x-bottom">
+                            <div class="header" data-bind="text: $current.data.orderItemModel.label"></div>
+                            <div class="description" data-bind="text: $current.data.description"></div>
+                        </div>
+
+                        <div class="oj-flex" data-bind="foreach: { data: $current.data.fieldsByCategories.primaryFields, as: 'item' }">
+                            <div class="oj-flex-item oj-lg-3 oj-md-3 oj-sm-12 oj-sm-margin-1x-bottom">
+                                <span class="data"><b><oj-bind-text value="[[item.title]]"></oj-bind-text>:</b>
+                                    <!-- ko if: item.onClick -->
+                                    <a data-bind="click: item.onClick.bind(item), text: item.value"></a>
+                                    <!-- /ko -->
+                                    <!-- ko if: !item.onClick -->
+                                    <oj-bind-text value="[[item.value]]"></oj-bind-text>
+                                    <!-- /ko -->
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secondary-fields oj-flex oj-sm-margin-2x-bottom" data-bind="foreach: { data: $current.data.fieldsByCategories.secondaryFields, as: 'item' }">
+                <div class="oj-lg-3 oj-md-3 oj-sm-12 oj-sm-margin-1x-bottom">
+                    <span class="data"><b><oj-bind-text value="[[item.title]]"></oj-bind-text>:</b>
+                        <!-- ko if: item.onClick -->
+                        <a data-bind="click: item.onClick.bind(item), text: item.value"></a>
+                        <!-- /ko -->
+                        <!-- ko if: !item.onClick -->
+                        <oj-bind-text value="[[item.value]]"></oj-bind-text>
+                        <!-- /ko -->
+                    </span>
+                </div>
+            </div>
+        </oj-collapsible>
+
+        <div class="secondary-fields oj-sm-margin-2x-bottom"
+             data-bind="visible: $current.data.isReceiveAvailable || $current.data.orderItemModel.receivedQuantity > 0"
+        >
+            <oj-button class="oj-margin-bottom" data-bind="visible: $current.data.isReceiveAvailable"
+                       on-oj-action="[[$current.data.receiveClicked.bind($current.data)]]">Receive
+            </oj-button>
+            <div data-bind="visible: $current.data.orderItemModel.receivedQuantity > 0">
+                <oj-bind-text value="[[$current.data.orderItemModel.receivedQuantity]]"></oj-bind-text>
+                received
+            </div>
+        </div>
+
+    </template>
+</oj-list-view>
+
+
+<oj-collapsible data-bind="visible: historyDataSource().data.length" class="oj-margin-top">
+    <h3 slot="header">Received Parts (
+        <oj-bind-text value="[[historyDataSource().data.length]]"></oj-bind-text>
+        )
+    </h3>
+
+    <oj-list-view class="oj-margin-top no-padding"
+                  aria-label="list of received parts"
+                  data="[[historyDataSource]]"
+                  selection-mode="none">
+        <template slot="itemTemplate">
+
+            <oj-collapsible class="no-bottom-margin">
+                <div slot="header">
+                    <div class="oj-flex oj-md-flex-wrap-nowrap full-width">
+                        <div class="oj-flex-item oj-sm-flex-0 oj-margin-end">
+                            <img style="max-width: 70px"
+                                 :src="[[$current.data.orderItemModel.imgUrl]]"
+                                 :alt="[[$current.data.orderItemModel.label]]"
+                                 data-bind="visible: $current.data.orderItemModel.imgUrl"/>
+                            <span class="plugin-icons part-abstract-icon" data-bind="visible: !$current.data.orderItemModel.imgUrl"></span>
+                        </div>
+                        <div class="oj-flex-item">
+                            <div class="oj-sm-margin-1x-bottom">
+                                <div class="header" data-bind="text: $current.data.orderItemModel.label"></div>
+                                <div class="description" data-bind="text: $current.data.description"></div>
+                            </div>
+                            <div class="oj-flex" data-bind="foreach: { data: $current.data.fieldsByCategories.primaryFields, as: 'item' }">
+                                <div class="oj-flex-item oj-lg-3 oj-md-3 oj-sm-12 oj-sm-margin-1x-bottom">
+                                    <span class="data"><b><oj-bind-text value="[[item.title]]"></oj-bind-text>:</b>
+                                        <!-- ko if: item.onClick -->
+                                        <a data-bind="click: item.onClick.bind(item), text: item.value"></a>
+                                        <!-- /ko -->
+                                        <!-- ko if: !item.onClick -->
+                                        <oj-bind-text value="[[item.value]]"></oj-bind-text>
+                                        <!-- /ko -->
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="secondary-fields oj-flex oj-sm-margin-2x-bottom" data-bind="foreach: { data: $current.data.fieldsByCategories.secondaryFields, as: 'item' }">
+                    <div class="oj-lg-3 oj-md-3 oj-sm-12 oj-sm-margin-1x-bottom">
+                        <span class="data"><b><oj-bind-text value="[[item.title]]"></oj-bind-text>:</b>
+                            <!-- ko if: item.onClick -->
+                            <a data-bind="click: item.onClick.bind(item), text: item.value"></a>
+                            <!-- /ko -->
+                            <!-- ko if: !item.onClick -->
+                            <oj-bind-text value="[[item.value]]"></oj-bind-text>
+                            <!-- /ko -->
+                        </span>
+                    </div>
+                </div>
+            </oj-collapsible>
+        </template>
+    </oj-list-view>
+</oj-collapsible>
+
+
+<oj-dialog id="receiveDialog" dialog-title="Receive">
+    <div slot="body">
+        <!-- ko if: selectedItem -->
+        <!-- ko with: selectedItem -->
+        <div class="oj-flex oj-sm-flex-wrap-nowrap oj-margin-bottom">
+            <div class="oj-flex-item oj-flex-initial oj-margin-end">
+                <img style="max-width: 70px"
+                     :src="[[orderItemModel.imgUrl]]"
+                     :alt="[[orderItemModel.label]]"
+                     data-bind="visible: orderItemModel.imgUrl"/>
+                <span class="plugin-icons part-abstract-icon" data-bind="visible: !orderItemModel.imgUrl"></span>
+            </div>
+            <div class="oj-flex-item oj-sm-12">
+                <div class="oj-sm-margin-1x-bottom">
+                    <div class="header" data-bind="text: orderItemModel.label"></div>
+                    <div class="description" data-bind="text: description"></div>
+                </div>
+                <div>
+                    Order: #
+                    <oj-bind-text value="[[orderModel.orderNumber]]"></oj-bind-text>
+                </div>
+                <div>Quantity:
+                    <oj-bind-text value="[[orderItemModel.quantity]]"></oj-bind-text>
+                </div>
+                <div data-bind="visible: orderItemModel.receivedQuantity">Already received:
+                    <oj-bind-text value="[[orderItemModel.receivedQuantity]]"></oj-bind-text>
+                </div>
+            </div>
+        </div>
+        <!-- /ko -->
+        <div>
+            <oj-label for="received-quantity">Quantity:</oj-label>
+            <oj-input-number
+                    id="received-quantity"
+                    value="{{receiveQuantity}}"
+                    step="1"
+                    min="1"
+                    on-valid-changed="[[receiveInputValidChanged.bind($data)]]"
+                    max="[[receiveMaxQuantity]]"
+                    virtual-keyboard="number"
+                    style="width: 120px;"
+            ></oj-input-number>
+            <oj-button disabled="[[selectAllDisabled]]" chroming="half" on-oj-action="[[selectAll.bind($data)]]">Select
+                All
+            </oj-button>
+        </div>
+        <div class="oj-margin-top" data-bind="visible: isScanNextBarcodeAvailable">
+            <oj-checkboxset value="{{scanNextBarcodeSet}}">
+                <oj-option value="scan">Scan next barcode</oj-option>
+            </oj-checkboxset>
+        </div>
+        <!-- /ko -->
+    </div>
+    <div slot="footer">
+        <oj-button on-oj-action="[[closeReceiveDialog.bind($data)]]">Dismiss</oj-button>
+
+        <!-- ko if: scanNextBarcode -->
+        <oj-button
+                autofocus="autofocus"
+                class="oj-button-primary"
+                disabled="[[receiveDisabled]]"
+                on-oj-action="[[receiveSubmit.bind($data)]]"
+        >
+            Receive
+            <span slot="endIcon" class="plugin-icons barcode-white-icon"></span>
+        </oj-button>
+        <!-- /ko -->
+        <!-- ko ifnot: scanNextBarcode -->
+        <oj-button
+                autofocus="autofocus"
+                class="oj-button-primary"
+                disabled="[[receiveDisabled]]"
+                on-oj-action="[[receiveSubmit.bind($data)]]"
+        >
+            Receive
+        </oj-button>
+        <!-- /ko -->
+    </div>
+</oj-dialog>
+<!-- /ko -->

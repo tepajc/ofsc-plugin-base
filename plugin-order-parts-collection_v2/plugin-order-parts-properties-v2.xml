@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<root>
+  <format version="1"/>
+  <product version="19.2.0"/>
+  <properties>
+    <property label="order_arrival_date" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Arrival Date"/>
+      </names>
+    </property>
+    <property label="order_date" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Date"/>
+      </names>
+    </property>
+    <property label="order_number" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Number"/>
+      </names>
+    </property>
+    <property label="order_status" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Status"/>
+      </names>
+    </property>
+    <property label="order_items" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Items"/>
+      </names>
+    </property>
+    <property label="order_destination_type" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Destination Type"/>
+      </names>
+    </property>
+    <property label="order_followup_aid" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Follow-up Activity ID"/>
+      </names>
+    </property>
+    <property label="order_followup_apptnumber" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Follow-up Activity Number"/>
+      </names>
+    </property>
+    <property label="order_initial_aid" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Initial Activity ID"/>
+      </names>
+    </property>
+    <property label="order_initial_apptnumber" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Initial Activity Number"/>
+      </names>
+    </property>
+    <property label="order_received_items" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Received Items"/>
+      </names>
+    </property>
+    <property label="order_initial_type" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Initial Activity Type"/>
+      </names>
+    </property>
+    <property label="order_initial_address" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Initial Activity Address"/>
+      </names>
+    </property>
+    <property label="part_item_number_rev" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Part Item + Revision"/>
+      </names>
+    </property>
+    <property label="part_item_number" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Part Item"/>
+      </names>
+    </property>
+    <property label="part_item_revision" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Part Revision"/>
+      </names>
+    </property>
+    <property label="order_item_details" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Item Details"/>
+      </names>
+    </property>
+    <property label="order_item_description" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Item Description"/>
+      </names>
+    </property>
+    <property label="order_item_initial_aid" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Item Initial Activity ID"/>
+      </names>
+    </property>
+    <property label="order_item_status" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Item Status"/>
+      </names>
+    </property>
+    <property label="order_item_shipment_number" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Item Shipment Number"/>
+      </names>
+    </property>
+    <property label="order_item_received_quantity" entity="inventory" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Item Received Quantity"/>
+      </names>
+    </property>
+    <property label="order_warehouse_list" entity="provider" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Order Warehouse List"/>
+      </names>
+    </property>
+    <property label="transfer_order_header_id" entity="appt" type="string" gui="text" duplicate="0" line_count="1">
+      <names>
+        <name lang="en" active="1" val="Transfer Order Header"/>
+      </names>
+    </property>
+  </properties>
+</root>
