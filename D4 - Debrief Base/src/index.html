@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle Technology Network Developer License Terms (http://www.oracle.com/technetwork/licenses/production-modify-license-2162709.html)
+-->
+<!-- build:[manifest] manifest.appcache -->
+<html lang="en-us">
+<!-- /build -->
+
+<head>
+    <title>Oracle JET Starter Template - Web Nav Bar</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1">
+    <link rel="icon" href="css/images/favicon.ico" type="image/x-icon"/>
+
+    <!-- build:template
+    <meta name="version" content="<%= getVersion() %>">
+    <meta name="repo-version" content="<%= commitHash %>">
+    <meta name="repo-files-checksum" content="<%= filesChecksum %>">
+    <meta name="original-repo-version" content="<%= originalCommitHash %>">
+    <meta name="original-repo-files-checksum" content="<%= originalFilesChecksum %>">
+    /build -->
+
+    <!-- This is the main css file for the default Alta theme -->
+
+    <!-- build:css https://static.oracle.com/cdn/jet/v6.2.0/default/css/alta/oj-alta-min.css -->
+    <!-- injector:theme -->
+    <link rel="stylesheet" href="css/libs/oj/v6.2.0/alta/oj-alta-min.css" type="text/css"/>
+    <!-- endinjector -->
+    <!-- /build -->
+
+    <!-- This is where you would add any app specific styling -->
+    <!-- build:css app.css -->
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
+    <!-- /build -->
+</head>
+<body class="oj-web-applayout-body" style="background-color: #fafafa;">
+
+<div id="globalBody">
+    <div class="watermark"></div>
+    <div role="main" data-bind="ojModule: router.moduleConfig"></div>
+</div>
+
+<!-- build:js html2pdf.bundle.js -->
+<script type="text/javascript" src="js/vendor/html2pdf/html2pdf.bundle.js"></script>
+<!-- /build -->
+<!-- build:js https://static.oracle.com/cdn/jet/v6.2.0/3rdparty/require/require.js -->
+<script type="text/javascript" src="js/libs/require/require.js"></script>
+<!-- /build -->
+<!-- build:js main.js -->
+<script type="text/javascript" src="js/main.js"></script>
+<!-- /build -->
+
+</body>
+
+</html>

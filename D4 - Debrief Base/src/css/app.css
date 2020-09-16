@@ -1,0 +1,441 @@
+/**
+ * @licence
+ * Copyright (c) 2019, Oracle and/or its affiliates. All rights reserved.
+ * Oracle Technology Network Developer License Terms (http://www.oracle.com/technetwork/licenses/production-modify-license-2162709.html)
+ */
+html {
+    font-size: 1em;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+.plugin-main-container {
+    max-width: 1070px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+@media all and (max-width: 480px) {
+    .plugin-main-container {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+
+@media all and (max-width: 1024px) {
+    .plugin-main-container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.invoice-container {
+    font-family: Arial, sans-serif;
+}
+
+.icon-add {
+    display: block;
+    padding: 0 3px !important;
+    width: 32px;
+    height: 32px;
+    background: url("images/app_sprite.svg") -36px 0 no-repeat;
+}
+
+.oj-active .icon-add {
+    background: url("images/app_sprite.svg") 0 0 no-repeat;
+}
+
+.icon-remove {
+    display: block;
+    padding: 0 3px !important;
+    width: 32px;
+    height: 32px;
+    background: url("images/app_sprite.svg") -72px -32px no-repeat;
+}
+
+.oj-active .icon-remove {
+    background: url("images/app_sprite.svg") 0 -64px no-repeat;
+}
+
+.oj-panel {
+    border-radius: 4px;
+}
+
+.flex-reverse {
+    flex-direction: row-reverse;
+}
+
+.input-wide .oj-select {
+    max-width: 100%;
+}
+
+.dashboard-list {
+    background-color: #fff;
+    border: 1px solid #D6DFE6;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.dashboard-list .oj-listview-item.oj-hover {
+    background-color: transparent;
+}
+
+canvas {
+    /* TODO refactor margin */
+    margin-top: 10px;
+    border: 1px solid #dfe4e7;
+    border-radius: 2px;
+    position: relative;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    touch-action: none;
+    max-width: 450px;
+    display: block;
+    width: 100%;
+}
+
+.upper_invoice_block {
+    flex-direction: column;
+    height: 42px;
+}
+
+.invoice_block {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.line_after {
+    left: 0;
+    content: " ";
+    border-bottom: 1px solid grey;
+    width: 100%;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.customer_text {
+    font-size: 12px;
+}
+
+.invoice-header {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.invoice-header-logo {
+    /*background: url('images/logo.svg') 0 0 no-repeat;*/
+    background-image: url('images/logo.svg');
+    background-repeat: no-repeat;
+    width: 150px;
+    height: 50px;
+    background-size: contain;
+}
+
+.invoice-title {
+    text-align: center;
+}
+
+.icon-inventoty-install {
+    display: block;
+    padding: 0 3px !important;
+    width: 32px;
+    height: 32px;
+    background: url("images/app_sprite.svg") -72px 0 no-repeat;
+    padding-right: 10px;
+}
+
+.icon-inventoty-deinstall {
+    display: block;
+    padding: 0 3px !important;
+    width: 32px;
+    height: 32px;
+    background: url("images/app_sprite.svg") -36px -32px no-repeat;
+    padding-right: 10px;
+}
+
+.icon-time-spent {
+    display: block;
+    padding: 0 3px !important;
+    width: 32px;
+    height: 32px;
+    background: url("images/app_sprite.svg") -36px -64px no-repeat;
+    background-color: transparent;
+    padding-right: 10px;
+}
+
+.icon-expenses {
+    display: block;
+    padding: 0 3px !important;
+    width: 32px;
+    height: 32px;
+    background: url("images/app_sprite.svg") 0 -32px no-repeat;
+    background-color: transparent;
+    padding-right: 10px;
+}
+
+.button_clear_canvas {
+    padding-top: 4px;
+}
+
+.highlight {
+    background: #ffe188;
+}
+
+.screen-actions {
+    text-align: right;
+}
+
+.oj-flex-item > .actions-container {
+    margin: 8px -10px;
+}
+
+.dashboard-actions .oj-button {
+    margin-top: 8px;
+}
+
+.button-add {
+    width: 46px;
+    height: 46px;
+    margin-bottom: 0;
+    cursor: pointer;
+    padding: 0;
+}
+
+.button-add.oj-button .oj-button-button {
+    padding: 0;
+    border-radius: 0;
+}
+
+.button-add.oj-button.oj-hover .oj-button-button {
+    border-color: transparent !important;
+    background-color: transparent !important;
+}
+
+.button-add.oj-button.oj-active .oj-button-button {
+    background-color: #0572ce !important;
+}
+
+.oj-listview-item.oj-selected {
+    background-color: #0572ce !important;
+}
+
+.oj-listview-item.oj-selected * {
+    color: #fff !important;
+}
+
+.oj-listview-item {
+    background-image: none;
+    border-top: 1px solid #D6DFE6 !important;
+}
+
+.oj-listview-item:first-child {
+    border-top: none !important;
+}
+
+.oj-button-primary.oj-button .oj-button-button {
+    background: #0572CE !important;
+    background-image: none;
+}
+
+.oj-button .oj-button-button {
+    padding-right: 16px;
+    padding-left: 16px;
+    cursor: pointer !important;
+}
+
+.hidden {
+    display: none;
+}
+
+part-preview {
+    display: block;
+}
+part-preview .highlight {
+    background: #ffe188;
+}
+part-preview .inventory-details-container {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    -webkit-tap-highlight-color: transparent;
+}
+part-preview .inventory-details-container--clickable {
+    cursor: pointer;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+part-preview .inventory-details-container--clickable:active {
+    background: #0056a4;
+    color: #fff;
+}
+part-preview .inventory-details-container--clickable:active .inventory-title,
+part-preview .inventory-details-container--clickable:active .inventory-property-label,
+part-preview .inventory-details-container--clickable:active .inventory-property-value {
+    color: #fff;
+}
+part-preview .inventory-details-container--clickable:active .highlight {
+    background: transparent;
+}
+part-preview .inventory-details {
+    display: flex;
+}
+part-preview .inventory-quantity-block {
+    padding: 16px 16px 0;
+}
+part-preview .inventory-image-container {
+    flex: 0 0 140px;
+    overflow: hidden;
+    min-height: 80px;
+}
+@media all and (max-width: 1024px) {
+    part-preview .inventory-image-container {
+        flex: 0 0 80px;
+    }
+}
+@media all and (max-width: 480px) {
+    part-preview .inventory-image-container {
+        min-height: 48px;
+        flex: 0 0 48px;
+    }
+}
+part-preview .inventory-image-container--no-image {
+    background: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3Csvg%0A%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%20%20%20version%3D%221.1%22%0A%20%20%20viewBox%3D%220%200%2031.749999%2031.750001%22%0A%20%20%20height%3D%22120%22%0A%20%20%20width%3D%22120%22%3E%0A%20%20%3Cg%0A%20%20%20%20%20transform%3D%22translate(0%2C-265.24999)%22%0A%20%20%20%20%20id%3D%22layer1%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20id%3D%22rect853%22%0A%20%20%20%20%20%20%20d%3D%22m%2015.874999%2C267.11233%20-12.9640649%2C7.57835%20v%2012.96406%20l%2012.9640649%2C7.48482%2012.964067%2C-7.48482%20v%20-12.96406%20z%22%0A%20%20%20%20%20%20%20style%3D%22color%3A%23000000%3Bclip-rule%3Anonzero%3Bdisplay%3Ainline%3Boverflow%3Avisible%3Bvisibility%3Avisible%3Bopacity%3A1%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Bcolor-interpolation%3AsRGB%3Bcolor-interpolation-filters%3AlinearRGB%3Bsolid-color%3A%23000000%3Bsolid-opacity%3A1%3Bfill%3Anone%3Bfill-opacity%3A1%3Bfill-rule%3Anonzero%3Bstroke%3A%23cccccc%3Bstroke-width%3A1.05833328%3Bstroke-linecap%3Abutt%3Bstroke-linejoin%3Amiter%3Bstroke-miterlimit%3A4%3Bstroke-dasharray%3Anone%3Bstroke-dashoffset%3A0%3Bstroke-opacity%3A1%3Bcolor-rendering%3Aauto%3Bimage-rendering%3Aauto%3Bshape-rendering%3Aauto%3Btext-rendering%3Aauto%3Benable-background%3Aaccumulate%22%20%2F%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20id%3D%22rect876%22%0A%20%20%20%20%20%20%20d%3D%22m%2011.145572%2C269.87702%20-3.2308089%2C1.88825%2012.9645839%2C7.57835%20v%204.27623%20l%203.230292%2C-1.86501%20v%20-4.29948%20z%22%0A%20%20%20%20%20%20%20style%3D%22color%3A%23000000%3Bclip-rule%3Anonzero%3Bdisplay%3Ainline%3Boverflow%3Avisible%3Bvisibility%3Avisible%3Bopacity%3A1%3Bisolation%3Aauto%3Bmix-blend-mode%3Anormal%3Bcolor-interpolation%3AsRGB%3Bcolor-interpolation-filters%3AlinearRGB%3Bsolid-color%3A%23000000%3Bsolid-opacity%3A1%3Bfill%3A%23cccccc%3Bfill-opacity%3A1%3Bfill-rule%3Anonzero%3Bstroke%3Anone%3Bstroke-width%3A0.26499999%3Bstroke-linecap%3Abutt%3Bstroke-linejoin%3Amiter%3Bstroke-miterlimit%3A4%3Bstroke-dasharray%3Anone%3Bstroke-dashoffset%3A0%3Bstroke-opacity%3A1%3Bcolor-rendering%3Aauto%3Bimage-rendering%3Aauto%3Bshape-rendering%3Aauto%3Btext-rendering%3Aauto%3Benable-background%3Aaccumulate%22%20%2F%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20d%3D%22m%2015.87497%2C282.26901%202.9e-5%2C12.87054%20m%2012.964123%2C-20.44887%20-12.964153%2C7.57833%20-12.9641622%2C-7.57833%22%0A%20%20%20%20%20%20%20style%3D%22opacity%3A1%3Bvector-effect%3Anone%3Bfill%3Anone%3Bfill-opacity%3A1%3Bfill-rule%3Aevenodd%3Bstroke%3A%23cccccc%3Bstroke-width%3A1.05833328%3Bstroke-linecap%3Abutt%3Bstroke-linejoin%3Amiter%3Bstroke-miterlimit%3A4%3Bstroke-dasharray%3Anone%3Bstroke-dashoffset%3A0%3Bstroke-opacity%3A1%22%0A%20%20%20%20%20%20%20id%3D%22path958%22%20%2F%3E%0A%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A") no-repeat center top;
+    background-size: 80px;
+}
+@media all and (max-width: 480px) {
+    part-preview .inventory-image-container--no-image {
+        background-size: 48px;
+    }
+}
+part-preview .inventory-image {
+    width: 100%;
+}
+part-preview .inventory-information {
+    flex: 1 1 100%;
+    overflow: hidden;
+}
+part-preview .inventory-title {
+    font-size: 19px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+part-preview .inventory-properties {
+    font-size: 14px;
+}
+part-preview .inventory-properties--full {
+    padding-top: 12px;
+}
+part-preview .inventory-property-label {
+    color: #808080;
+}
+part-preview .inventory-property-value {
+    color: #4F4F4F;
+}
+
+.grid {
+    background: white;
+    border: 1px solid #D6DFE6;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    margin-top: 16px;
+}
+@media all and (max-width: 480px) {
+    .grid {
+        padding-right: 0;
+        margin-left: -4px;
+        margin-right: -4px;
+    }
+}
+.grid--without-border {
+    border: none;
+}
+.grid--without-border .grid-row {
+    box-shadow: 0 1px 0 #d8d8d8;
+}
+.grid-row {
+    min-height: 56px;
+    box-sizing: border-box;
+    box-shadow: 0 17px 0 -16px #d8d8d8;
+}
+@media all and (max-width: 768px) {
+    .grid-row {
+        box-shadow: 0 9px 0 -8px #d8d8d8;
+    }
+}
+.grid-row--without-border {
+    box-shadow: none;
+}
+.grid-row:last-child {
+    box-shadow: none;
+}
+
+.participants-block {
+    justify-content: space-between;
+}
+
+.participants-block > .oj-flex-item {
+    flex: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.participants-block .oj-flex .oj-flex-item + .oj-flex-item {
+    padding-left: 1rem;
+}
+
+@media all and (max-width: 480px) {
+    .participants-block > .oj-flex-item {
+        flex: auto;
+    }
+
+    .participants-block .oj-flex .oj-flex-item {
+        flex-basis: 30%;
+    }
+
+    .participants-block .oj-flex .oj-flex-item + .oj-flex-item {
+        flex-basis: 60%;
+    }
+
+    .participants-block .oj-flex .oj-flex-item + .oj-flex-item {
+        padding-left: 0;
+    }
+}
+
+.watermark {
+    position: absolute;
+    top: 0.7rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: block;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 0.8rem;
+    font-weight: normal;
+}
+
+.watermark:after {
+    content: "Powered by OFSC Mobile Plugin Framework"
+}
+
+@media all and (max-width: 768px) {
+    .watermark {
+        position: static;
+        margin: 8px 0 -8px;
+    }
+}

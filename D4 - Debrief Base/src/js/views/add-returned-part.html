@@ -1,0 +1,125 @@
+<div class="oj-flex oj-padding-top oj-md-padding-4x-vertical plugin-main-container">
+    <div class="oj-sm-12 oj-flex-item oj-sm-padding-2x-horizontal">
+        <h3>Return Part</h3>
+        <!-- ko if: !selectedInventory() -->
+        <!-- ko if: !isSearchByPartsCatalog() && inventoriesDataProvider.isEmpty() != 'yes'-->
+        <div class="oj-panel">
+            <oj-list-view class="oj-margin-top dashboard-list" data="[[inventoriesDataProvider]]"
+                          selection-mode="single" selection="{{listViewSelection}}">
+                <template slot='itemTemplate'>
+                    <div class="oj-flex">
+                        <div class="oj-flex-item">
+                            <div>
+                                <span class="oj-text-md oj-text-primary-color"
+                                      data-bind="text: $current.data.inventory.get('part_item_number_rev')"></span>
+                            </div>
+                            <div class="oj-text-sm oj-text-secondary-color">
+                                <span data-bind="text: $current.data.inventory.get('part_item_desc')"></span>
+                            </div>
+                            <div class="oj-text-xs oj-text-tertiary-color"
+                                 data-bind="if: $current.data.dispositionText">
+                                <span data-bind="text: $current.data.dispositionText"></span>
+                            </div>
+                        </div>
+                        <div class="oj-flex-item oj-sm-flex-initial">
+                            <span class="oj-text-md oj-text-tertiary-color"
+                                  data-bind="text: $current.data.measuredQuantity"></span>
+                        </div>
+                    </div>
+                </template>
+            </oj-list-view>
+            <div class="oj-padding-lg-top oj-flex oj-flex-items-pad">
+                <oj-button on-click="[[searchAtPartsCatalog.bind($data)]]">Search at Parts Catalog</oj-button>
+            </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: inventoriesDataProvider.isEmpty() == 'yes' || isSearchByPartsCatalog() -->
+        <div class="oj-panel oj-form oj-sm-odd-cols-12 oj-md-labels-inline">
+            <div class="oj-flex">
+                <div class="oj-flex-item oj-sm-12">
+                    <oj-input-text style="max-width: none" placeholder="Parts Catalog search request"
+                                   value="{{searchRequest}}"></oj-input-text>
+                </div>
+            </div>
+            <div data-bind="visible: showSearchResults">
+                <div class="no-results" data-bind="visible: noResults">
+                    <div class="no-results-icon"></div>
+                    <div class="text">No parts found</div>
+                </div>
+                <div class="search-results" data-bind="visible: searchResultItems().length">
+                    <div class="grid grid--without-border" data-bind="foreach: { data: searchResultItems, as: 'item'}">
+                        <div class="grid-row">
+                            <part-preview params="
+                            model: item,
+                            catalogCollection: $parent.catalogCollection,
+                            onOpenDetails: $parent.partSelected.bind($parent),
+                            searchRequest: $parent.searchRequestFiltered
+                        "></part-preview>
+                        </div>
+                    </div>
+                    <div class="oj-flex">
+                        <div class="oj-flex-item">
+                            <oj-button data-bind="visible: isSearchContinueAvailable"
+                                       on-click="[[continueSearch.bind($data)]]"
+                                       disabled="[[searchContinueLoading]]">More...
+                            </oj-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: selectedInventory -->
+        <div class="oj-panel">
+            <div class="oj-flex">
+                <div class="oj-flex-item">
+                    <div>
+                        <span class="oj-text-md oj-text-primary-color"
+                              data-bind="text: selectedInventory().inventory.get('part_item_number_rev')"></span>
+                    </div>
+                    <div class="oj-text-sm oj-text-secondary-color">
+                        <span data-bind="text: selectedInventory().inventory.get('part_item_desc')"></span>
+                    </div>
+                    <div class="oj-text-xs oj-text-tertiary-color" data-bind="if: selectedInventory().dispositionText">
+                        <span data-bind="text: selectedInventory().dispositionText"></span>
+                    </div>
+                </div>
+                <div class="oj-flex-item oj-sm-flex-initial">
+                    <span class="oj-text-md oj-text-tertiary-color"
+                          data-bind="text: selectedInventory().measuredQuantity"></span>
+                </div>
+            </div>
+            <div class="oj-form oj-sm-odd-cols-12 oj-md-odd-cols-4 oj-md-labels-inline oj-margin-lg-top">
+                <div class="oj-flex">
+                    <div class="oj-flex-item">
+                        <oj-label for="activity" show-required>Activity Code</oj-label>
+                    </div>
+                    <div class="oj-flex-item">
+                        <oj-select-one class="input-wide" id="activity" options="[[activityEnumArray]]" value="{{activityId}}"></oj-select-one>
+                    </div>
+                </div>
+                <div class="oj-flex">
+                    <div class="oj-flex-item">
+                        <oj-label for="quantity" show-required>Quantity</oj-label>
+                    </div>
+                    <div class="oj-flex-item">
+                        <oj-input-number id="quantity" value="{{quantity}}" step="1" min="1"></oj-input-number>
+                        <span class="oj-text-tertiary-color" data-bind="visible: selectedInventory().measuredQuantity">
+                            of <span data-bind="text: selectedInventory().measuredQuantity"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /ko -->
+
+        <div class="screen-actions oj-margin-vertical">
+            <oj-button on-click='[[dismiss.bind($data)]]'>Back</oj-button>
+            <oj-button class="oj-button-primary" data-bind="visible: selectedInventory"
+                on-click="[[submit.bind($data)]]">Add Item</oj-button>
+        </div>
+    </div>
+</div>

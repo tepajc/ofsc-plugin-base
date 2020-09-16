@@ -1,0 +1,50 @@
+<div class="inventory-details-container" data-bind="
+    click: openDetails,
+    css: { 'inventory-details-container--clickable': onOpenDetails }
+">
+    <div class="inventory-details">
+        <div class="inventory-image-container margin-right-2" data-bind="css: { 'inventory-image-container--no-image': noImage }">
+            <!-- ko if: previewImage -->
+            <img class="inventory-image" data-bind="
+                attr: {src: previewImage, alt: model.label},
+                css: { hidden: noImage },
+                event: { load: imageLoaded }
+            " src="" alt=""/>
+            <!-- /ko -->
+        </div>
+        <div class="inventory-information">
+            <div>
+                <span class="inventory-title" data-bind="
+                    textHighlighted: model.label,
+                    searchString: searchRequest
+                "></span>
+            </div>
+            <div class="inventory-properties margin-bottom">
+                <div data-bind="visible: catalogCollection.items().length > 1">
+                    <span class="inventory-property-label">Catalog</span>:
+                    <span class="inventory-property-value" data-bind="text: catalogName"></span>
+                </div>
+                <!-- ko foreach: {data: previewFields, as: 'field'} -->
+                <div>
+                    <span class="inventory-property-label" data-bind="text: field.title"></span>:
+                    <span class="inventory-property-value" data-bind="
+                        textHighlighted: field.value,
+                        searchString: $parent.searchRequest,
+                        searchable: field.searchable
+                    ">
+                    </span>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div class="inventory-properties inventory-properties--full margin-top margin-bottom" data-bind="
+                visible: showAllFields,
+                foreach: { data: detailFields, as: 'field' }
+            ">
+                <div>
+                    <span class="inventory-property-label" data-bind="text: field.title"></span>:
+                    <span class="inventory-property-value" data-bind="text: field.value"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
