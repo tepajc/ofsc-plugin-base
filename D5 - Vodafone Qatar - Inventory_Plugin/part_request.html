@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html manifest="manifest.appcache">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Part</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style>
+           .ui-autocomplete {
+                max-height: 200px;
+                overflow-y: auto;
+                /* prevent horizontal scrollbar */
+                overflow-x: hidden;
+                /* add padding to account for vertical scrollbar */
+                padding-right: 20px;
+            }
+            @media (min-width: 576px) { 
+                .request-form{
+                    text-align:center;
+                }
+            }            
+    </style>
+    <script>
+        var part_source=[];
+        var availableTags=[];
+        var offset = 0;
+        var ec_url,ec_username,ec_password;
+        var eac_location_id,tpc_location_id;
+        var eac_source,eac_desti;
+        var tpc_source,tpc_desti;
+        var resource_name;
+        var service_center;
+        var res_sub_inv,external_id;
+    </script>
+    <script src="part_request.js"></script>
+    <script>
+        (function($){
+            function get_require_date() {
+                var date = new Date();
+                date.setDate(date.getDate() + 5);
+                var aaaa = date.getFullYear();
+                var gg = date.getDate();
+                var mm = (date.getMonth() + 1);
+                if (gg < 10)
+                    gg = "0" + gg;
+                if (mm < 10)
+                    mm = "0" + mm;
+                var cur_day = aaaa + "-" + mm + "-" + gg;
+                var hours = date.getHours()
+                var minutes = date.getMinutes()
+                var seconds = date.getSeconds();
+                if (hours < 10)
+                    hours = "0" + hours;
+                if (minutes < 10)
+                    minutes = "0" + minutes;
+                if (seconds < 10)
+                    seconds = "0" + seconds;
+                return cur_day + " " + hours + ":" + minutes + ":" + seconds;
+            }
+            $(document).ready(function() {
+                var plugin = new OfscPlugin(true);
+                plugin.init();
+                $('#back').on('click', function(e) {
+                    var result = confirm("Are you sure, you want to go back");
+                    if(!result){
+                        return false;
+                    }
+                });
+                
+                $('#part-list').on('click', 'a.remove_part', function() {
+                    $(this).parent().parent().remove();
+                });
+                
+                $("#part-request").submit(function(e){
+                    var count_row = $('#part-list > tbody > tr').length;
+                    var existing_org;
+                    if(count_row > 0){
+                        existing_org = $('#part-list >tbody >tr:first').find("td:eq(3)").text();
+                        var current_org = part_source[$('#parts').val()].type;
+                        if(current_org != existing_org){
+                            alert("Please select only "+existing_org+" products.");
+                            return false;
+                        }
+                    }
+                    var part_list = $('#part-list tbody').html();
+                    var selling_price = (part_source[$('#parts').val()].selling_price !== null) ?part_source[$('#parts').val()].selling_price : 0;
+                    var total = $('#qunatity').val()*selling_price;
+                    var latest_part_list = part_list + '<tr><td>'+$('#parts').val()+'</td><td>'+$('#qunatity').val()+'</td><td>'+part_source[$('#parts').val()].alter_part+'</td><td>'+part_source[$('#parts').val()].type+'</td><td>'+selling_price+'</td><td>'+total+'</td><td><a class="remove_part" href="#">Delete</a></td></tr>';
+                    $('#part-list tbody').html(latest_part_list);
+                    $('#parts').val('');
+                    $('#qunatity').val('');
+                    return false;
+                });
+                
+                $('#submit-request').on('click', function() {
+                    var count_row = $('#part-list >tbody >tr').length;
+                    if(count_row == 0){
+                        alert("Please add some part for request.");
+                    } else {
+                        var org = $('#part-list tbody').children('tr:first').find("td:eq(3)").text();
+                        var source_loc = (org == "EAC") ? eac_location_id : tpc_location_id ;
+                        var source_sub = (org == "EAC") ? eac_source : tpc_source;
+                        var desti_sub = (org == "EAC") ? eac_desti : tpc_desti;
+                        //var current_svc_center = service_center.replace(" SERVICE CENTER", "");
+                        //var service_center_list_obj = $.parseJSON(service_center_list);
+                        //var service_center_code = service_center_list_obj[current_svc_center];
+                        var require_date = get_require_date();
+                        var payload_body = '{"Organization_c":"'+org+'","RequestedBy1_c":"'+resource_name+'","PartSourceLocation_Id_c":'+source_loc+', "PartSourceSubinventory_Id_c":'+source_sub+', "PartDestinationSub_Id_c":'+desti_sub+',"PartDestination_Id_c":'+source_loc+',"ServiceCenter_c":"'+service_center+'","Type_c":"MOVE","RequiredDate1_c":"'+require_date+'","Status_c":"Pending for Approval","WorkOrder_Id_c":'+getQueryStringValue('id')+',"TransferOrderLineCollection_c":[';
+                        $('#part-list>tbody>tr').each(function(){
+                            payload_body += '{"PartName_Id_c":'+part_source[$(this).find("td:eq(0)").text()].id+',"Quantity_c":'+$(this).find("td:eq(1)").text()+',"PartEBSID_c":"'+part_source[$(this).find("td:eq(0)").text()].ebs_id+'"},';
+                        });
+                        payload_body = payload_body.replace(/,\s*$/, "");
+                        payload_body = payload_body+']}';
+                        var create_link = ec_url+":443/crmRestApi/resources/latest/TransferOrder_c";
+                        $.ajax({
+                            type: "POST",
+                            data: payload_body,
+                            contentType: "application/json",
+                            url: create_link,
+                            beforeSend: function (xhr) {
+                              $('#fade-wrapper').fadeIn();  
+                              xhr.setRequestHeader('Authorization', makeBaseAuth(ec_username, ec_password));
+                            },
+                            success: function(data) {
+                                alert("Request Number "+data.RecordName+" has been generated.");
+                                $('#fade-wrapper').fadeOut();
+                                window.location.href = "index.html";
+                            }.bind(this),
+                            error: function(xhr, status, err) {
+                              console.error(create_link, status, err.toString());
+                              $('#fade-wrapper').fadeOut();
+                              alert("Something Went Wrong. Please Try after some time, if problem presists please contact your administrator.")
+                            }.bind(this)
+                        });
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+    <style>
+        #fade-wrapper {
+            display: none;
+            position: absolute;
+            height: 100vh;
+            width: 100vw;
+            background: rgba(0, 0, 0, 0.5);
+            top:0;
+        }
+        .loader{
+            margin: 0 auto;
+            display: block;
+            position: relative;
+            top: 50%;
+        }
+    </style>
+</head>
+<body>
+   <div class="container-fluid">
+       <div class="row">
+            <div class="col-sm-9 col-xs-9">
+                <h3>Add Part</h3>
+            </div>
+            <div class="col-sm-3 col-xs-3">
+                <a id="back" class="btn btn-primary" href="index.html" style="float:right;margin-top:15px;">Back</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xs-8 col-xs-offset-2">
+                <form class="navbar-form navbar-left request-form" role="search" id="part-request">
+                  <div class="form-group">
+                    <label for="parts">Search Part</label>
+                    <input type="text" class="form-control" placeholder="Search Part" id="parts" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="parts">Quantity</label>
+                    <input type="number" class="form-control" placeholder="Quantity" id="qunatity" required>
+                  </div>
+                  <button type="submit" class="btn btn-default">Add</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9 col-xs-9">
+                <h3>Requested Part List</h3>
+            </div>
+            <div class="col-sm-3 col-xs-3">
+                <a id="submit-request" class="btn btn-primary" href="#" style="float:right;">Submit Part Request</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table" id="part-list">
+                      <thead>
+                        <tr>
+                          <th scope="col">Part</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Alternative Parts</th>
+                          <th scope="col">Type</th>
+                          <th scope="col">Selling Price</th>
+                          <th scope="col">Total</th>
+                          <th scope="col">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="fade-wrapper">
+        <img src="ajax-loader.gif" class="loader"/>
+    </div>
+</body>
+</html>

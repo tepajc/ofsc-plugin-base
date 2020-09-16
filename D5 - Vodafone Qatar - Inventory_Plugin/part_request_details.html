@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html manifest="manifest.appcache">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Part Request Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+        var ec_url,ec_username,ec_password,oFSCUsername,oFSCPassword,resourceName,res_sub_inv,external_id;
+        var inv_data={};
+    </script>
+    <script src="part_request_details.js"></script>
+    <script>
+        (function($){ 
+            $(document).ready(function() {
+                var plugin = new OfscPlugin(true);
+                plugin.init();
+                var url_link;
+                $('#recive_parts').on('click', function(e) {
+                    url_link = ec_url+':443/crmRestApi/resources/latest/TransferOrder_c/'+getQueryStringValue('id');
+                    $.ajax({
+                        type: "PATCH",
+                        data: '{"Status_c":"RECEIVED"}',
+                        contentType: "application/json",
+                        url: url_link,
+                        beforeSend: function (xhr) {
+                          xhr.setRequestHeader('Authorization', makeBaseAuth(ec_username, ec_password));
+                          $('#fade-wrapper').fadeIn();  
+                        },
+                        success: function(data) {
+                            get_resource_inventory();
+                            update_inventory();
+                        }.bind(this),
+                        error: function(xhr, status, err) {
+                            console.error(url_link, status, err.toString());
+                            $('#fade-wrapper').fadeOut();  
+                        }.bind(this)
+                    });
+                });
+            });
+            function update_inventory(){
+                var inventory_data = '{';
+                inventory_data = inventory_data+'"resources": [{';
+                inventory_data = inventory_data+'"resourceId": "'+external_id+'","operationType":"update",';
+                inventory_data = inventory_data+'"inventories": [';
+                //var existing_products = [];
+                $('table > tbody  > tr').each(function(index, tr) {
+                    var current_qty = ($(tr).find("td:eq(0)").text() in inv_data)? inv_data[$(tr).find("td:eq(0)").text()] : 0;
+                    //var current_qty = parseInt($(tr).find("td:eq(1)").text(), 10);
+                    var latest_qty = parseInt(current_qty,10) + parseInt($(tr).find("td:eq(2)").text(),10);
+                    inventory_data = inventory_data+'{"inventoryType":"Part Item",';
+                    inventory_data = inventory_data+'"item_number":"'+$(tr).find("td:eq(0)").text()+'",';
+                    inventory_data = inventory_data+'"quantity":'+latest_qty+',"Inventory Quantity":'+latest_qty+'},';
+                    //existing_products.push($(tr).find("td:eq(0)").text());
+                });
+                //$.each(inv_data, function(key, value) {
+                //    if(existing_products.indexOf(key) === -1){
+                //        inventory_data = inventory_data+'{"inventoryType":"Part Item",';
+                //        inventory_data = inventory_data+'"item_number":"'+key+'",';
+                //        inventory_data = inventory_data+'"quantity":'+value+'},';
+                //    }
+                //});
+                inventory_data = inventory_data.replace(/,\s*$/, "");
+                inventory_data = inventory_data+']}]}';
+                var oFSCURL = "https://api.etadirect.com/rest/ofscCore/v1/resources/custom-actions/bulkUpdateInventories";
+                $.ajax({
+                    type: "POST",
+                    data: inventory_data,
+                    contentType: "application/json",
+                    url: oFSCURL,
+                    beforeSend: function (xhr) {
+                      xhr.setRequestHeader('Authorization', makeBaseAuth(oFSCUsername, oFSCPassword));  
+                    },
+                    success: function(data) {
+                        $('#recive_parts').hide();
+                        $('#fade-wrapper').fadeOut();
+                        $('#status').html('RECEIVED');
+                        alert("Parts has been received");
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                        console.error(oFSCURL, status, err.toString());
+                        $('#fade-wrapper').fadeOut();  
+                    }.bind(this)
+                });
+            }
+            
+            var count = 0;
+            var counter = 0;
+            function get_resource_inventory(){
+                var url = "https://api.etadirect.com/rest/ofscCore/v1/resources/"+external_id+"/inventories?limit=100";
+                if(count > 0){
+                    url = url+"&offset="+count;
+                }
+                $.ajax({
+                        type:"GET",
+                        async:false,
+                        url: url,
+                        dataType:"json",
+                        beforeSend: function (xhr) {
+                          xhr.setRequestHeader('Authorization', makeBaseAuth(oFSCUsername, oFSCPassword));
+                        },
+                        success: function(data)
+                        {
+                            if(data.totalResults > 100){
+                                var diff = (data.totalResults%100==0) ? 0 :1;
+                                count = (data.totalResults/100)+diff;
+                            }
+                            counter++;
+                            $.each(data.items, function(key, value) {
+                                inv_data[value.item_number]=value.quantity;
+                            });
+                            if(counter < count){
+                                get_resource_inventory();
+                            }
+                        }
+                });
+            }
+        })(jQuery);
+        
+    </script>
+    <style>
+        #fade-wrapper {
+            display: none;
+            position: absolute;
+            height: 100vh;
+            width: 100vw;
+            background: rgba(0, 0, 0, 0.5);
+            top:0;
+        }
+        .loader{
+            margin: 0 auto;
+            display: block;
+            position: relative;
+            top: 50%;
+        }
+    </style>
+</head>
+<body>
+   <div class="container-fluid">
+       <div class="row">
+            <div class="col-sm-9 col-xs-9">
+                <h3>Part Request Details</h3>
+            </div>
+            <div class="col-sm-3 col-xs-3">
+                <a id="back" class="btn btn-primary" href="index.html" style="float:right;margin-top:15px;">Back</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9 col-xs-9">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label>Request Number</label>
+                        <span id="request-number"></span>
+                    </div>
+                    <div class="col-sm-3">
+                        <label>Status</label>
+                        <span id="status"></span>
+                    </div>
+                     <div class="col-sm-3">
+                        <label>Requested Date</label>
+                        <span id="requested-date"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-3">
+                <a href="#" id="recive_parts" class="btn btn-primary">Receive Parts</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-responsive" id="part-list">
+                      <thead>
+                        <tr>
+                          <th scope="col">Part</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Issued Quantity</th>
+                          <th scope="col">Selling Price</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="fade-wrapper">
+        <img src="ajax-loader.gif" class="loader"/>
+    </div>
+    <input type="hidden" name="record-id" id="record-id">
+</body>
+</html>

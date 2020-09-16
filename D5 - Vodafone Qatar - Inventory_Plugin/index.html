@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html manifest="manifest.appcache">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Part Request List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="plugin.js"></script>
+	<script type="text/javascript">        
+        var fserviceURL,fserviceUser,fservicePass;        
+        var rowCount = 0;
+        var invlist_html = 
+        '<select class="form-control" name="invlist" id="invlist"><option value=></option><option value="ONT">ONT (Optical Network Terminal)</option><option value="CPE _">Unused</option><option value="CPE ">CPE (Customer Premise Equipment)</option><option value="IPTV_SET_TOP_BOX">IPTV Set top Box</option><option value="FIBRE_PATCH_CORD">Fiber patch cord</option><option value="DROP_CABLE">Drop cable</option><option value="MISCELLANEOUS">Miscellaneous</option><option value="PVC_TRUNK">PVC Trunk</option><option value="FIBRE_TERMINATION_BOX">Fiber Termination Box</option><option value="CAT_6_CABLE">CAT 6 Cable</option><option value="POWER_SOCKET">Power Socket</option><option value="RJ_45_CONNECTOR">RJ-45 Connector</option></select>';
+		var res_html = 
+        '<select class="form-control" name="resource" id="resource"><option value=></option><option value="Abdalelah">Abdalelah</option><option value="Amir">Amir</option><option value="Alex">Alex</option><option value="Bilal">Bilal</option><option value="Ibrahim">Ibrahim</option><option value="Ismail">Ismail</option></select>';
+		var status_html = 
+        '<select class="form-control" name="sts" id="sts"><option value=></option><option value="With Field team">With Field team</option><option value="In Stock">In Stock</option></select>';
+    </script>
+    <script>
+        (function($){
+            $(document).ready(function() {
+                var plugin = new OfscPlugin(true);
+                plugin.init();
+				
+			/*	setTimeout(function(){ 
+					var auth = makeBaseAuth(fserviceUser, fservicePass);
+					var settings = {
+					  "url": fserviceURL+"/rest/ofscMetadata/v1/inventoryTypes",
+					  "method": "GET",				  
+					  "timeout": 0,
+					  "headers": {
+						"Authorization": auth
+					  },
+					};
+					
+					$.ajax(settings).done(function (response) {
+					  console.log(response);
+					});				
+				}, 3000);
+				
+				*/
+				
+				$('#inv-list').on('click', 'a.remove_part', function(e){
+                    $(this).parent().parent().remove();
+                });
+                $('#add-inv').on('click', function(e){
+                    var inv_list = $('#inv-list tbody').html();
+                    inv_list = '<tr><th scope="row">'+ ++rowCount +'</th><td>'+res_html+'</td><td>'+invlist_html+'</td><td><input class="form-control" id="partNumber"></input></td><td><input class="form-control" id="partName"></input></td><td><input class="form-control" id="partDesc"></input></td><td><input class="form-control" id="serialNo"></input></td><td>'+status_html+'</td><td><input class="form-control" type="number" id="quantity"></input></td><td><a class="remove_part" href="#"><img src="delete_row.png" class="loader"/></a></td></tr>';
+                    $('#inv-list tbody').append(inv_list);
+                    return false;                });
+                $('#save-inv').on('click', function(e){       
+                   var invList = [];             
+                    $('#inv-list tbody tr').each(function(index, tr){
+                            var tmpInv = {};
+                            $(this).find('td').each (function(index, td) {
+                                var val = $(this)[0].childNodes[0].value;
+                                switch(index){
+                                    case 0: tmpInv.resourceId = val; break;
+                                    case 1: tmpInv.inventoryType = val; break;
+                                    case 2: tmpInv.PART_NUMBER = val; break;
+                                    case 3: tmpInv.PART_NAME = val; break;                                
+                                    case 4: tmpInv.PART_DESCRIPTION = val; break;
+                                    case 7: tmpInv.quantity = val; break;
+                                }
+                            });
+                            console.log(JSON.stringify(tmpInv));
+                            invList.push(tmpInv);
+                    });
+                    postInvData(invList);
+
+                    return false;
+                });
+
+            });
+        })(jQuery);
+    </script>
+    <style>
+         #fade-wrapper {
+            display: none;
+            position: absolute;
+            height: 100vh;
+            width: 100vw;
+            background: rgba(0, 0, 0, 0.5);
+            top:0;
+        }
+        .loader{
+            margin: 0 auto;
+            display: block;
+            position: relative;
+            top: 50%;
+        }
+    </style>
+</head>
+<body>
+   <div class="container-fluid">
+       <div class="row">
+            <div class="col-sm-9 col-xs-9">
+                <h3>Inventory Details</h3>
+            </div>
+            <div class="col-sm-2 col-xs-2">
+                <a id="add-inv" class="btn btn-primary" style="float:right;margin-top:15px;">Add Inventory</a>
+            </div>
+            <div class="col-sm-1 col-xs-1">
+                <a id="save-inv" class="btn btn-primary" style="float:right;margin-top:15px;margin-right:15px;">Save</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table" id="inv-list" style="overflow-x: hidden;">
+                      <thead>
+                        <tr>
+                          <th scope="col">Sr. No.</th>
+                          <th scope="col">Resource</th>
+                          <th scope="col">Inventory Type</th>
+                          <th scope="col">Part Number</th>
+                          <th scope="col">Part Name</th>
+                          <th scope="col">Part Description</th>
+                          <th scope="col">Serial Number</th>
+                          <th scope="col">Status</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                       <!--  <tr><th scope="row">asds</th><td><input class="form-control" id="resourceId" value=""></input></td><td>XX</td><td><input class="form-control" id="partNumber"></input></td><td><input class="form-control" id="partName"></input></td><td><input class="form-control id="partDesc></input></td><td><input class="form-control" id="serialNo"></input></td><td><input class="form-control" id="status"></input></td><td><input class="form-control" id="quantity"></input></td><td><a class="remove_part" href="#"><img src="delete_row.png" class="loader"/></a></td></tr> -->
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+		</div>
+    </div>
+     <div id="fade-wrapper">
+        <img src="ajax-loader.gif" class="loader"/>
+    </div>
+</body>
+</html>

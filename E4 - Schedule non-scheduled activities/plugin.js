@@ -20,6 +20,16 @@ function openMessage(data) {
   var clientId = data.securedData.ofscRestClientId;
   var clientSecret = data.securedData.ofscRestClientSecret;
   var baseURL = data.securedData.ofscRestEndpoint;
+  if (!("ofscTimeslots" in data.securedData)){
+    alert("You need to include the Secure Parameters ofscTimeslots in this plugin configuration");
+    return;
+  }
+  var timeslotsToValidateTxt =data.securedData.ofscTimeslots;
+  if (timeslotsToValidateTxt == ""){
+    alert("You need to include the Secure Parameters ofscTimeslots in this plugin configuration");
+    return;
+  }
+  var timeslotsToValidate = timeslotsToValidateTxt.split(',');
   proxy = new OFSCProxy(instance, clientId, clientSecret, baseURL);
   //proxy = new OFSCProxy();
   var clousureData = {
@@ -27,6 +37,7 @@ function openMessage(data) {
 	//	"pid" : data.resource.pid
   };
   internalData.root = document.getElementById("root").value;
+  internalData.timeslotsToValidate = timeslotsToValidate;
 
   document.getElementById("getInitialData").addEventListener("click", function() {
     var element = document.getElementById("action-debug");
@@ -107,22 +118,12 @@ function scheduleActivities() {
 }
 
 
-function scheduleActivity( data ){
+async function scheduleActivity( data ){
   var iteration = data.iteration;
   var totalLength = internalData.activities.length;
   var activity = internalData.activities[iteration];
   var activitiesScheduled = internalData.activitiesScheduled;
   var activitiesNonScheduled = internalData.activitiesNonScheduled;
-  var okActivities = data.okActivites;
-  var errorActivities = data.errorActivities;
-  var activityAm = { ...activity };
-  var activityPm = { ...activity };
-  // As activities as parts of the day I will manage
-  activityAm["TIMESLOT_Selected"] ="2";
-  activityPm["TIMESLOT_Selected"] ="3";
-  var activities = [];
-  activities[0] = activityAm;
-  activities[1] = activityPm;
 
   var slaStartDate = new Date();
   if ("slaWindowStart" in activity){
@@ -130,57 +131,65 @@ function scheduleActivity( data ){
   }
   var slaEndDate = new Date(activity.slaWindowEnd);
   var bookingDate = getBookingDates(slaStartDate,slaEndDate);
+  var timeslotsToValidate = internalData.timeslotsToValidate;
+  var timeslotDateResult ={};
   var responseArray = [];
-  console.log('info' , "I will start looking for available dates in  "+ bookingDate);
-  proxy.getActivityBookingOptions( activities[0], internalData.root , bookingDate ).then( async function(response1 ) {
-      responseArray[0] = response1;
-      proxy.getActivityBookingOptions( activities[1], internalData.root , bookingDate ).then( async function(response2 ) {
-        // Looping the main array of responses
-        responseArray[1] = response2;
-        var timeslotDateResult
-        for (var i =0; i < responseArray[0].dates.length ; i++){
-           const dateTimeslotTmp =  await findRightTimeslot(responseArray[0].dates[i],  activities[0] , slaStartDate, slaEndDate );
-           if ("date" in dateTimeslotTmp){
-             timeslotDateResult=dateTimeslotTmp;
-             break;
-           }else{
-              // If I have not found availability, look on the second array of responses
-              for (var j =0; j < responseArray[1].dates.length ; j++){
-                if (responseArray[1].dates[j].label == responseArray[0].dates[i].label){
-                   const dateTimeslotTmp =  await findRightTimeslot(responseArray[1].dates[j],   activities[1] , slaStartDate, slaEndDate );
-                   timeslotDateResult=dateTimeslotTmp;
-                   break;
-                }
-              }
-           }
-      }
-      if ("date" in timeslotDateResult){
-          activity.date = timeslotDateResult.date;
-          activity.timeSlot = timeslotDateResult.timeSlot;
-          activity.TIMESLOT_Selected = timeslotDateResult.TIMESLOT_Selected;
-          const updateResponse = await proxy.bulkUpdateActivities(activity);
-          if ("results" in updateResponse ){
-              if ( updateResponse.results.length > 0) {
-                  activitiesScheduled.push(activity);
-              }
-          }
-      }else{
-        activitiesNonScheduled.push(activity);
-      }
+  for ( var i = 0; i <  timeslotsToValidate.length ; i++){
+    var additionalParameters ={};
+    additionalParameters["TIMESLOT_Selected"] = timeslotsToValidate[i];
+    //console.log('info' , "APPT" + activity.activityId +"I will request  available dates in  "+ bookingDate + " for timeslots " + timeslotsToValidate[i] );
+    const response = await proxy.getActivityBookingOptions( activity, additionalParameters , internalData.root , bookingDate );
+    responseArray.push(response);
 
-      iteration++;
-      data.iteration = iteration;
-      internalData.activitiesScheduled = activitiesScheduled;
-      if ( iteration < totalLength ){
-             scheduleActivity(data);
-      } else{
-        var element = document.getElementById("get-corrected-activities");
-        element.innerHTML = "<pre>" +  " Assignments scheduled Detail : " +   JSON.stringify(activitiesScheduled, undefined, 4) + " \n Assignments Non scheduled Detail : "+  JSON.stringify(activitiesNonScheduled, undefined, 4) + "</pre>";
-        var element = document.getElementById("action-debug");
-        element.innerHTML = "<pre>" + "Assignments corrected </pre>";
+  }
+  var datesToValidate =  bookingDate.split(",");
+  for (var i= 0 ; i < datesToValidate.length ; i++){
+     for (var j= 0; j < responseArray.length ; j++){
+        for (var k=0 ; k < responseArray[j].dates.length ; k++ ){
+          //console.log('info' , "APPT" + activity.activityId +"compare date "+ responseArray[j].dates[k].date + " with date " +  datesToValidate[i] );
+          if  ( responseArray[j].dates[k].date == datesToValidate[i] ){
+              timeslotDateResult = findRightTimeslot(responseArray[j].dates[k],  activity ,timeslotsToValidate[j], slaStartDate, slaEndDate );
+          }
+          if ("date" in timeslotDateResult){
+            break;
+          }
+        }
+        if ("date" in timeslotDateResult){
+          break;
+        }
+     }
+     if ("date" in timeslotDateResult){
+       break;
+     }
+  }
+
+  if ("date" in timeslotDateResult){
+      activity.date = timeslotDateResult.date;
+      activity.timeSlot = timeslotDateResult.timeSlot;
+      activity.TIMESLOT_Selected = timeslotDateResult.TIMESLOT_Selected;
+      var activityToUpdate = [activity ];
+      const updateResponse = await proxy.bulkUpdateActivities(activityToUpdate);
+      if ("results" in updateResponse ){
+          if ( updateResponse.results.length > 0) {
+              activitiesScheduled.push(activity);
+          }
       }
-     });
-  });
+  }else{
+    activitiesNonScheduled.push(activity);
+  }
+
+  iteration++;
+  data.iteration = iteration;
+  internalData.activitiesScheduled = activitiesScheduled;
+  if ( iteration < totalLength ){
+    scheduleActivity(data);
+  } else{
+    var element = document.getElementById("get-corrected-activities");
+    element.innerHTML = "<pre>" +  " Assignments scheduled Detail : " +   JSON.stringify(activitiesScheduled, undefined, 4) + " \n Assignments Non scheduled Detail : "+  JSON.stringify(activitiesNonScheduled, undefined, 4) + "</pre>";
+    var element = document.getElementById("action-debug");
+    element.innerHTML = "<pre>" + "Assignments corrected </pre>";
+  }
+
 }
 function initMessage(data) {
 
@@ -311,19 +320,21 @@ function formatDateToTxt (date ){
   return bookingDate;
 }
 
-async function findRightTimeslot(date,  activity , startDate, endDate ){
+function findRightTimeslot(date,  activity , timeslot, startDate, endDate ){
   var timeslotDateResult = {};
   if ("areas" in date && date.areas.length == 1){
     var area = date.areas[0];
     if ( "remainingQuota" in area && area.remainingQuota > 0 ){
       if ("timeSlots" in area && area.timeSlots.length > 0 ){
         for (var j =0; j < area.timeSlots.length ; j++){
-          if ( !( "reason" in area.timeSlots[j] ) ){
-            console.log('debug', "Found availability in " +date.date + " Area " + area.label + " timeslot " + area.timeSlots[j].label);
-            timeslotDateResult.date = date.date;
-            timeslotDateResult.timeSlot = area.timeSlots[j].label;
-            timeslotDateResult.TIMESLOT_Selected = activity.TIMESLOT_Selected;
-            return timeslotDateResult;
+          if (area.timeSlots[j].label = timeslot ){
+            if ( !( "reason" in area.timeSlots[j] ) ){
+              //console.log('debug', "Found availability in " +date.date + " Area " + area.label + " timeslot " + area.timeSlots[j].label);
+              timeslotDateResult.date = date.date;
+              timeslotDateResult.timeSlot = area.timeSlots[j].label;
+              timeslotDateResult.TIMESLOT_Selected = timeslot;
+              return timeslotDateResult;
+            }
           }
         }
       }
