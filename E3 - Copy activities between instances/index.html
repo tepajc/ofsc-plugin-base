@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html manifest="manifest.appcache">
+<head>
+    <meta charset="utf-8">
+    <title>Base Plugin</title>
+    <script src="proxy.js"></script>
+    <script src="plugin.js"></script>
+</head>
+<body id="body" onload="initPlugin()">
+  <div display="none" id="show-data"></div>
+  <h2>Action debugger</h2>
+  <div display="none" id="action-debug"></div>
+  <hr>
+  <div data-theme="d" class="ui-bar">
+    <button id="showHideActivities">Show/Hide Activities</button>
+  </div>
+  <div display="block" id="activity_list"></div>
+<hr>
+
+<h2>Field to include</h2>
+<div>
+<textarea  id="fields" name="fields" rows="10" >apptNumber,postalCode,resourceId,timeSlot,date,status,city,activityType,workZone,startTime,endTime</textarea>
+</div>
+<h2>Data</h2>
+<div data-theme="d" class="ui-bar">
+  <label for="root">Origin Bucket :</label>
+  <input type="text" id="rootOrigin" name="rootOrigin"  value="CopyActivitiesOrigin"><br><br>
+  <label for="root">Destination Bucket :</label>
+  <input type="text" id="rootDestination" name="rootDestination"  value="CopyActivitiesDestination"><br><br>
+  <label for="root">Origin Date :</label>
+  <input type="text" id="dateOrigin" name="dateOrigin" ><br><br>
+  <label for="root">Destination Date :</label>
+  <input type="text" id="dateDestination" name="dateDestination" ><br><br>
+</div>
+<h2>Overwrite credentials</h2>
+<div data-theme="d" class="ui-bar">
+  <label for="days">Origin Client ID :</label>
+  <input type="text" id="clientIdOrigin" name="clientIdOrigin"  value=""><br><br>
+  <label for="days">Origin Client Secret :</label>
+  <input type="text" id="clientSecretOrigin" name="clientSecretOrigin"  value=""><br><br>
+  <label for="days">Destination Client ID :</label>
+  <input type="text" id="clientIdDestination" name="clientIdDestination"  value=""><br><br>
+  <label for="days">Destination Client Secret :</label>
+  <input type="text" id="clientSecretDestination" name="clientSecretDestination"  value=""><br><br
+</div>
+
+<h2>Actions</h2>
+<div><button id="getInitialData">Get Initial Data</button></div>
+<div display="none" id="get-activities"></div>
+
+<div data-theme="d" class="ui-bar">
+  <button id="copyActivities">Copy Activities</button>
+</div>
+<div display="none" id="get-corrected-activities"></div>
+<div data-role="footer" data-theme="d" class="ui-bar">
+  <button id="close">Close</button>
+</div>
+</body>
+</html>

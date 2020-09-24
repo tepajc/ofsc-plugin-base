@@ -30,7 +30,8 @@ function openMessage(data) {
     return;
   }
   var timeslotsToValidate = timeslotsToValidateTxt.split(',');
-  proxy = new OFSCProxy(instance, clientId, clientSecret, baseURL);
+  proxy = new OFSCProxy();
+  proxy.createInstance(instance, clientId, clientSecret, baseURL);
   //proxy = new OFSCProxy();
   var clousureData = {
     //"DISPATCHER_COMMENTS": "CHANGED",

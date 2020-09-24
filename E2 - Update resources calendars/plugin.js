@@ -3,11 +3,11 @@
 var activity;
 var proxy;
 
+
 function openMessage(data) {
   <!--PLACEHOLDER FOR CUSTOM CODE-- >
 
-  var element = document.getElementById("received-data");
-  element.innerHTML = "<pre>" + JSON.stringify(data, undefined, 4) + "</pre>";
+
   // Credential data from the Plugin configuration
   var instance = data.securedData.ofscInstance;
   var clientId = data.securedData.ofscRestClientId;
@@ -25,8 +25,68 @@ function openMessage(data) {
   document.getElementById("submit").addEventListener("click", function() {
 		closePlugin(activityData);
   });
+  document.getElementById("updateResources").addEventListener("click", function() {
+    updateResources();
+  });
 
   <!--END OF PLACEHOLDER-- >
+}
+
+
+
+async function updateResources() {
+  const selectedFile = document.getElementById('csvFileInput').files[0];
+  loadResources(selectedFile);
+}
+
+function handleFiles(files) {
+  // Check for the various File API support.
+  if (window.FileReader) {
+    var element = document.getElementById("action-debug");
+    element.innerHTML = "<pre> Fichero cargado y listo para cargar </pre>";
+    //getAsText(files[0]);
+  } else {
+    alert('FileReader are not supported in this browser.');
+  }
+}
+
+async function loadResources(fileToRead) {
+  var reader = new FileReader();
+  // Read file into memory as UTF-8
+  reader.readAsText(fileToRead);
+  // Handle errors load
+  reader.onload = loadHandler;
+  reader.onerror = errorHandler;
+}
+
+function loadHandler(event) {
+  var csv = event.target.result;
+  processData(csv);
+}
+
+async function processData(csv) {
+  var allTextLines = csv.split(/\r\n|\n/);
+  var lines = [];
+  for (var i=0; i<allTextLines.length; i++) {
+      var data = allTextLines[i].split(',');
+      var fields = {
+        "recordType": "schedule",
+        "startDate": data[1],
+        "scheduleLabel": data[2]
+      }
+      const updateResponse = await proxy.updateResourceWorkschedule(data[0],fields);
+      console.log(updateResponse);
+
+  }
+  var element = document.getElementById("action-debug");
+  element.innerHTML = "<pre>" + allTextLines.length + " Recursos actualizados</pre>";
+
+}
+
+function errorHandler(evt) {
+  if(evt.target.error.name == "NotReadableError") {
+    alert("Canno't read file !");
+  }
 }
 
 function initMessage(data) {

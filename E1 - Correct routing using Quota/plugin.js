@@ -20,7 +20,8 @@ function openMessage(data) {
   var clientId = data.securedData.ofscRestClientId;
   var clientSecret = data.securedData.ofscRestClientSecret;
   var baseURL = data.securedData.ofscRestEndpoint;
-  proxy = new OFSCProxy(instance, clientId, clientSecret, baseURL);
+  proxy = new OFSCProxy();
+  proxy.createInstance(instance, clientId, clientSecret, baseURL);
   var clousureData = {
     //"DISPATCHER_COMMENTS": "CHANGED",
 	//	"pid" : data.resource.pid
