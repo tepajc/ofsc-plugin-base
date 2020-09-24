@@ -9,9 +9,21 @@
 <body id="body" onload="initPlugin()">
   <div display="none" id="show-data"></div>
 <hr>
-<div display="none" id="received-data"></div>
+<div>
+  <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
+          accept=".csv">
+</div>
+<hr>
+<div data-theme="d" class="ui-bar">
+  <button id="updateResources">Update Resources</button>
+</div>
+<hr>
+  <hr>
+    <h2>Action debugger</h2>
+  <div display="none" id="action-debug"></div>
+  <hr>
 <div data-role="footer" data-theme="d" class="ui-bar">
-  <button id="submit">Enviar</button>
+  <button id="submit">Close</button>
 </div>
 </body>
 </html>

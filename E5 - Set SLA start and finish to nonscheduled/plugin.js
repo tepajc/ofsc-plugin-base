@@ -21,7 +21,8 @@ function openMessage(data) {
   var clientSecret = data.securedData.ofscRestClientSecret;
   var baseURL = data.securedData.ofscRestEndpoint;
 
-  proxy = new OFSCProxy(instance, clientId, clientSecret, baseURL);
+  proxy = new OFSCProxy();
+  proxy.createInstance(instance, clientId, clientSecret, baseURL);
   //proxy = new OFSCProxy();
   var clousureData = {
     //"DISPATCHER_COMMENTS": "CHANGED",
