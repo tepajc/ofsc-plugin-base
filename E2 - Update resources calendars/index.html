@@ -2,28 +2,30 @@
 <html manifest="manifest.appcache">
 <head>
     <meta charset="utf-8">
-    <title>Base Plugin</title>
+    <title>Update resources calendars</title>
+    <link rel="stylesheet" href="css/plugin.css" type="text/css"/>
     <script src="proxy.js"></script>
     <script src="plugin.js"></script>
 </head>
 <body id="body" onload="initPlugin()">
-  <div display="none" id="show-data"></div>
-<hr>
-<div>
-  <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
-          accept=".csv">
-</div>
-<hr>
-<div data-theme="d" class="ui-bar">
-  <button id="updateResources">Update Resources</button>
-</div>
-<hr>
-  <hr>
-    <h2>Action debugger</h2>
-  <div display="none" id="action-debug"></div>
-  <hr>
-<div data-role="footer" data-theme="d" class="ui-bar">
-  <button id="submit">Close</button>
-</div>
+ 
+  <div class="fondo">
+    <div display="none" id="show-data"></div>
+    <div class="blankspace"></div>
+      <h2>Actualización de calendarios masiva</h2>
+      <div class="blankspace"></div>
+      <input type="file" id="csvFileInput" onchange="handleFiles(this.files)" accept=".csv">
+      <div class="blankspace"></div>
+      <div data-theme="d" class="ui-bar">
+        <button id="updateResources" class="oj-button">Update Resources</button>
+      </div>
+      <div class="blankspace"></div>
+      <h2>Action debugger</h2>
+      <div display="none" id="action-debug"></div>
+      <div class="blankspace"></div>
+      <div data-role="footer" data-theme="d" class="ui-bar">
+        <button id="submit" class="oj-button">Close</button>
+      </div>
+  </div>
 </body>
 </html>
