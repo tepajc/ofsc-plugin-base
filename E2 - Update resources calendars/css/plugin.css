@@ -22,9 +22,18 @@ h2 {
     padding-bottom: 8px;
 }
 .oj-button {
+    width: 140px;
+    height: 46px;
+    margin-top: 8px;
+    margin-bottom: 0;
     padding-right: 16px;
     padding-left: 16px;
     cursor: pointer !important;
+    background-image: none;
+    border-radius: 12px 12px 12px 12px;
+    -moz-border-radius: 12px 12px 12px 12px;
+    -webkit-border-radius: 12px 12px 12px 12px;
+    border: 0px solid #000000;
 }
 .txtalign-right{
     text-align: right;
