@@ -21,6 +21,9 @@ h2 {
     padding-top: 8px;
     padding-bottom: 8px;
 }
+.blankspace-left {
+    padding-left: 20px;
+}
 .oj-button {
     width: 140px;
     height: 46px;
@@ -29,15 +32,16 @@ h2 {
     padding-right: 16px;
     padding-left: 16px;
     cursor: pointer !important;
-    background-image: none;
+    background-color: #ffffff;
+    text-decoration: none;
     border-radius: 12px 12px 12px 12px;
     -moz-border-radius: 12px 12px 12px 12px;
     -webkit-border-radius: 12px 12px 12px 12px;
-    border: 0px solid #000000;
+    border: 1px solid #000000;
 }
-.txtalign-right{
-    text-align: right;
-    padding-right: 20px;
+.oj-button:hover {
+    color: #ffffff;
+    background-color: #5a5959;
 }
 .fondo {
     background: transparent url(../img/savetime2.png) center center no-repeat;
@@ -58,4 +62,5 @@ h2 {
     padding-bottom: 8px;
     padding-left: 8px;
     padding-right: 8px;
+    text-align: left;
 }

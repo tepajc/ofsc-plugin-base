@@ -68,11 +68,11 @@ async function processData(csv) {
   var allTextLines = csv.split(/\r\n|\n/);
   var lines = [];
   for (var i=0; i<allTextLines.length; i++) {
-      var data = allTextLines[i].split(',');
+      var data = allTextLines[i].split(';');
       var fields = {
-        "recordType": "schedule",
-        "startDate": data[1],
-        "scheduleLabel": data[2]
+        "recordType": data[1],
+        "startDate": data[2],
+        "scheduleLabel": data[3]
       }
       const updateResponse = await proxy.updateResourceWorkschedule(data[0],fields);
       console.log(updateResponse);

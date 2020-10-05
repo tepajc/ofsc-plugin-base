@@ -8,14 +8,15 @@
     <script src="plugin.js"></script>
 </head>
 <body id="body" onload="initPlugin()">
-  <div class="fondo">
-    <div display="none" id="show-data"></div>
-    <div class="blankspace"></div>
+  <div class="fondo ui-bar">
+    <div class="blankspace-right">
+      <div display="none" id="show-data"></div>
+      <div class="blankspace"></div>
       <h2>Actualización de calendarios masiva</h2>
       <div class="blankspace"></div>
-      <input type="file" id="csvFileInput" onchange="handleFiles(this.files)" accept=".csv">
       <div class="blankspace"></div>
       <div data-theme="d" class="ui-bar">
+        <input type="file" id="csvFileInput" onchange="handleFiles(this.files)" accept=".csv">
         <button id="updateResources" class="oj-button">Update Resources</button>
       </div>
       <div class="blankspace"></div>
@@ -25,6 +26,7 @@
       <div data-role="footer" data-theme="d" class="ui-bar">
         <button id="submit" class="oj-button">Close</button>
       </div>
+    </div>
   </div>
 </body>
 </html>
