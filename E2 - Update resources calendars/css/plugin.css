@@ -14,6 +14,9 @@
     padding-left: 0px;
     padding-right: 8px;
 }
+[type=reset], [type=submit], button, html [type=button] {
+    -webkit-appearance: button;
+}
 h2 {
     font-size: 1.25rem;
 }
@@ -63,4 +66,55 @@ h2 {
     padding-left: 8px;
     padding-right: 8px;
     text-align: left;
+}
+.a-Button--hot, .t-Button--hot:not(.t-Button--simple), body .ui-button.ui-button--hot, body .ui-state-default.ui-priority-primary {
+    background-color: #5F7D4F;
+    color: #fff;
+}
+.a-Button, .a-Button.a-Button--popupLOV, .a-IG-button.a-IG-button--controls, .apex-button-group input+label, .t-Button:not(.t-Button--simple), .t-Form-fieldContainer--radioButtonGroup .apex-item-group--rc input+label, .ui-button {
+    color: #fff;
+    background-color: #5F7D4F;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.125) inset;
+}
+.a-Button, .t-Button, .ui-button {
+    border: none;
+    text-shadow: none;
+    transition: background-color .2s ease,box-shadow .2s ease,color .2s ease;
+}
+.a-Button, .t-Button, .ui-button {
+    border-radius: 3px;
+    font-weight: 600;
+}
+.t-Button {
+    -webkit-appearance: none;
+    background: 0 0;
+    background-clip: padding-box;
+    border: 0.5px solid #5F7D4F;
+    cursor: pointer;
+    display: inline-block;
+    font: inherit;
+    margin: 0;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    vertical-align: middle;
+    background-color: #5F7D4F;
+    color: #fff;
+}
+.t-Button--padBottom {
+    margin-bottom: .8rem!important;
+}
+.t-Button--gapTop {
+    margin-top: 1.2rem!important;
+}
+t-Body-titleHeading, .t-Button, .t-ButtonRegion-buttons, .t-Card-info, .t-Card-initials, .t-Comments-userIcon {
+    white-space: nowrap;
+}
+.t-Button, legend {
+    box-sizing: border-box;
+}
+button, hr, input {
+    overflow: visible;
 }
