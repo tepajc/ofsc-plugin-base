@@ -67,6 +67,7 @@ function loadHandler(event) {
 async function processData(csv) {
   var allTextLines = csv.split(/\r\n|\n/);
   var lines = [];
+  var element = document.getElementById("action-debug");
   for (var i=0; i<allTextLines.length; i++) {
       var data = allTextLines[i].split(';');
       var fields = {
@@ -76,10 +77,11 @@ async function processData(csv) {
       }
       const updateResponse = await proxy.updateResourceWorkschedule(data[0],fields);
       console.log(updateResponse);
-
+      var myJSON = JSON.stringify(updateResponse);
+      element.innerHTML = element.innerHTML + "<pre> LOG: " + myJSON + "</pre>";
   }
-  var element = document.getElementById("action-debug");
-  element.innerHTML = "<pre>" + allTextLines.length + " Recursos actualizados</pre>";
+  
+  element.innerHTML = element.innerHTML + "<pre>" + allTextLines.length + " Recursos actualizados</pre>";
 
 }
 
