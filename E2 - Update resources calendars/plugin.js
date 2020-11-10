@@ -72,7 +72,8 @@ async function processData(csv) {
       var fields = {
         "recordType": data[1],
         "startDate": data[2],
-        "scheduleLabel": data[3]
+        "scheduleLabel": data[3],
+        "comments": data[4]
       }
       const updateResponse = await proxy.updateResourceWorkschedule(data[0],fields);
       console.log(updateResponse);
