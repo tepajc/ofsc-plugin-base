@@ -44,7 +44,6 @@ function handleFiles(files) {
   if (window.FileReader) {
     var element = document.getElementById("action-debug");
     element.innerHTML = "<pre> Fichero cargado y listo para cargar </pre>";
-    //getAsText(files[0]);
   } else {
     alert('FileReader are not supported in this browser.');
   }
@@ -68,7 +67,7 @@ async function processData(csv) {
   var allTextLines = csv.split(/\r\n|\n/);
   var lines = [];
   var element = document.getElementById("action-debug");
-  for (var i=0; i<allTextLines.length; i++) {
+  for (var i=1; i<allTextLines.length; i++) {
       var data = allTextLines[i].split(';');
       var fields = {
         "recordType": data[1],
@@ -77,8 +76,8 @@ async function processData(csv) {
       }
       const updateResponse = await proxy.updateResourceWorkschedule(data[0],fields);
       console.log(updateResponse);
-      var myJSON = JSON.stringify(updateResponse);
-      element.innerHTML = element.innerHTML + "<pre> LOG: " + myJSON + "</pre>";
+      var myJSON = JSON.stringify(updateResponse, undefined,4);
+      element.innerHTML = element.innerHTML + "<pre>" + myJSON + "</pre>";
   }
   
   element.innerHTML = element.innerHTML + "<pre>" + allTextLines.length + " Recursos actualizados</pre>";
