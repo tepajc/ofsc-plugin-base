@@ -44,7 +44,6 @@ function handleFiles(files) {
   if (window.FileReader) {
     var element = document.getElementById("action-debug");
     element.innerHTML = "<pre> Fichero cargado y listo para cargar </pre>";
-    //getAsText(files[0]);
   } else {
     alert('FileReader are not supported in this browser.');
   }
@@ -67,19 +66,22 @@ function loadHandler(event) {
 async function processData(csv) {
   var allTextLines = csv.split(/\r\n|\n/);
   var lines = [];
-  for (var i=0; i<allTextLines.length; i++) {
-      var data = allTextLines[i].split(',');
+  var element = document.getElementById("action-debug");
+  for (var i=1; i<allTextLines.length; i++) {
+      var data = allTextLines[i].split(';');
       var fields = {
-        "recordType": "schedule",
-        "startDate": data[1],
-        "scheduleLabel": data[2]
+        "recordType": data[1],
+        "startDate": data[2],
+        "scheduleLabel": data[3],
+        "comments": data[4]
       }
       const updateResponse = await proxy.updateResourceWorkschedule(data[0],fields);
       console.log(updateResponse);
-
+      var myJSON = JSON.stringify(updateResponse, undefined,4);
+      element.innerHTML = element.innerHTML + "<pre>" + myJSON + "</pre>";
   }
-  var element = document.getElementById("action-debug");
-  element.innerHTML = "<pre>" + allTextLines.length + " Recursos actualizados</pre>";
+  
+  element.innerHTML = element.innerHTML + "<pre>" + allTextLines.length + " Recursos actualizados</pre>";
 
 }
 
